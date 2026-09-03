@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+:root {
+  --background: #FBFBFD; 
+  --foreground: #47210D; 
+  --color-antique: #F6E9D9; 
+  --color-hazelnut: #94735B;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-bocadillo-antique: var(--color-antique);
+  --color-bocadillo-hazelnut: var(--color-hazelnut); 
+  --font-serif: var(--font-bitter);
+  --font-script: var(--font-dancing);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased; 
+}
+
+/* Clases utilitarias extra */
+.bg-paper {
+  background-color: var(--color-antique);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #94735B;
+  outline-offset: 3px;
+  border-radius: 6px;
+}

@@ -27,10 +27,11 @@ body {
 .bg-paper {
   background-color: var(--color-antique);
 }
-
+ 
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid #94735B;
+  outline: 2px solid #e77727;
   outline-offset: 3px;
   border-radius: 6px;
 }
+

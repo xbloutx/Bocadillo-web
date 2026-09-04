@@ -23,11 +23,6 @@ body {
   -webkit-font-smoothing: antialiased; 
 }
 
-/* Clases utilitarias extra */
-.bg-paper {
-  background-color: var(--color-antique);
-}
- 
 a:focus-visible,
 button:focus-visible {
   outline: 2px solid #e77727;

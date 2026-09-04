@@ -5,7 +5,7 @@ import { Bitter, Dancing_Script } from "next/font/google";
 
 const bitter = Bitter({
   subsets: ["latin"],
-  weight: ["700", "900"],
+  weight: ["400", "500", "600", "700", "900"],
   variable: "--font-bitter",
 });
 
@@ -15,12 +15,21 @@ const dancing = Dancing_Script({
   variable: "--font-dancing",
 });
 
+export const metadata = {
+  title: {
+    default: "Bocadillo — 100% casero",
+    template: "%s · Bocadillo",
+  },
+  description:
+    "Sandwiches y postres 100% caseros en Perú. Combos hechos a mano y entregados con cariño. Pide por WhatsApp o Instagram.",
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
-      <body className={`${bitter.variable} ${dancing.variable}`}>
+      <body className={`${bitter.variable} ${dancing.variable} flex flex-col min-h-screen`}>
         <Header />
-        {children}
+        <div className="flex-1 flex flex-col">{children}</div>
         <Footer />
       </body>
     </html>

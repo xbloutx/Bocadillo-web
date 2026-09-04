@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Hero() {
     return (
@@ -17,7 +18,7 @@ export default function Hero() {
                         priority
                     />               
                     
-                    <h1 className="font-serif font-black text-5xl sm:text-7xl lg:text-8xl text-bocadillo-walnut leading-none tracking-tight mt-1">
+                    <h1 className="font-serif font-black text-5xl sm:text-7xl lg:text-8xl text-bocadillo-walnut leading-none tracking-tighter mt-1">
                         BOCADILLO
                     </h1>
                     
@@ -29,9 +30,12 @@ export default function Hero() {
                         Dulces momentos, hechos en casa ♡
                     </p>
                 
-                    <button className="font-serif mt-5 bg-[#47210D] text-white px-10 py-4 rounded-full font-medium text-lg hover:bg-bocadillo-hazelnut active:scale-95 active:opacity-90 transition-all duration-300 shadow-xl shadow-bocadillo-walnut/20">
+                    <Link
+                        href="/catalogo"
+                        className="font-serif mt-5 bg-[#47210D] text-white px-10 py-4 rounded-full font-medium text-lg hover:bg-bocadillo-hazelnut active:scale-95 active:opacity-90 transition-all duration-300 shadow-xl shadow-bocadillo-walnut/20"
+                    >
                         VER CATÁLOGO
-                    </button>
+                    </Link>
                 </div>
             </div>
             

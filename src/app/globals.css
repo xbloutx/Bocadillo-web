@@ -1,17 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --background: #FBFBFD; 
-  --foreground: #47210D; 
-  --color-antique: #F6E9D9; 
+  --background: #FBFBFD;
+  --foreground: #47210D;
+  --color-antique: #F6E9D9;
   --color-hazelnut: #94735B;
+  --color-walnut: #47210D;
+  --color-paper: #FFFFFF;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-bocadillo-antique: var(--color-antique);
-  --color-bocadillo-hazelnut: var(--color-hazelnut); 
+  --color-bocadillo-hazelnut: var(--color-hazelnut);
+  --color-bocadillo-walnut: var(--color-walnut);
+  --color-paper: var(--color-paper);
   --font-serif: var(--font-bitter);
   --font-script: var(--font-dancing);
 }
@@ -20,18 +24,32 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  -webkit-font-smoothing: antialiased; 
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Clases utilitarias extra */
-.bg-paper {
-  background-color: var(--color-antique);
-}
- 
 a:focus-visible,
 button:focus-visible {
   outline: 2px solid #e77727;
   outline-offset: 3px;
   border-radius: 6px;
+}
+
+/* Gentler, non-vestibular equivalent for anyone who has asked their OS to reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Translucent chrome turns solid instead of blurred when the OS asks for less transparency */
+@media (prefers-reduced-transparency: reduce) {
+  .backdrop-blur-md,
+  .backdrop-blur-xl {
+    backdrop-filter: none !important;
+    background-color: var(--background) !important;
+  }
 }
 

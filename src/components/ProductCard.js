@@ -1,6 +1,9 @@
 import Image from "next/image";
 
 export default function ProductCard({ product, priority = false }) {
+    const message = `Hola! Quiero pedir: ${product.name} (S/ ${product.price.toFixed(2)})`;
+    const orderUrl = `https://wa.me/51902733258?text=${encodeURIComponent(message)}`;
+
     return (
         <div className="group bg-paper rounded-3xl overflow-hidden border border-black/[0.04] shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] hover:-translate-y-1.5 transition-all duration-500 ease-out flex flex-col h-full">
             
@@ -41,9 +44,14 @@ export default function ProductCard({ product, priority = false }) {
                         </span>
                     </div>
 
-                    <button className="w-full bg-foreground font-serif text-bocadillo-antique py-3 rounded-full text-sm font-medium hover:bg-bocadillo-hazelnut active:scale-[0.97] transition-all duration-200 shadow-md shadow-foreground/10">
-                        VER DETALLE
-                    </button>
+                    <a
+                        href={orderUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block w-full text-center bg-foreground font-serif text-bocadillo-antique py-3 rounded-full text-sm font-medium hover:bg-bocadillo-hazelnut active:scale-[0.97] transition-all duration-200 shadow-md shadow-foreground/10"
+                    >
+                        PEDIR POR WHATSAPP
+                    </a>
                 </div>
             </div>
         </div>

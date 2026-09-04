@@ -51,10 +51,9 @@ export default function ProductDetailModal({ product, onClose }) {
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`;
 
     return (
-        <AnimatePresence>
-            <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-                {/* Backdrop oscurecido con desenfoque de fondo */}
-                <motion.div
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+            {/* Backdrop oscurecido con desenfoque de fondo */}
+            <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -216,6 +215,5 @@ export default function ProductDetailModal({ product, onClose }) {
                     </div>
                 </motion.div>
             </div>
-        </AnimatePresence>
     );
 }

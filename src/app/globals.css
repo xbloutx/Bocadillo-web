@@ -26,21 +26,26 @@
   --font-script: var(--font-dancing);
 }
 
+html {
+  -webkit-tap-highlight-color: transparent;
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid #e77727;
+  outline: 2px solid var(--color-copper);
   outline-offset: 3px;
-  border-radius: 6px;
+  border-radius: 8px;
 }
 
-/* Gentler, non-vestibular equivalent for anyone who has asked their OS to reduce motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -50,7 +55,6 @@ button:focus-visible {
   }
 }
 
-/* Translucent chrome turns solid instead of blurred when the OS asks for less transparency */
 @media (prefers-reduced-transparency: reduce) {
   .backdrop-blur-md,
   .backdrop-blur-xl {

@@ -34,7 +34,6 @@ export default function CatalogoPage() {
                     subtitle="Elige tus momentos favoritos ♡" 
                 />
 
-                {/* Barra de categorías con acabado translúcido Apple (backdrop-blur + ring de luz) */}
                 <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10 flex justify-center -mt-8">
                     <div className="inline-flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 bg-white/70 backdrop-blur-xl saturate-[180%] p-1.5 sm:p-2 rounded-full border border-white/60 shadow-lg shadow-bocadillo-walnut/5">
                         {ALL_CATEGORIES.map((category) => {
@@ -64,7 +63,6 @@ export default function CatalogoPage() {
                     </div>
                 </div>
 
-                {/* Contenido principal del catálogo */}
                 <div className="max-w-7xl mx-auto px-6 pt-10 pb-20 sm:px-8">
                     {filteredProducts.length > 0 ? (
                         <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -105,17 +103,17 @@ export default function CatalogoPage() {
                         </div>
                     )}
 
-                    {/* Banner inferior: "¿Prefieres algo personalizado?" */}
                     <CustomOrderBanner />
                 </div>
 
-                {/* Modal / Sheet interactivo para ver el detalle del combo */}
-                {selectedProduct && (
-                    <ProductDetailModal
-                        product={selectedProduct}
-                        onClose={() => setSelectedProduct(null)}
-                    />
-                )}
+                <AnimatePresence>
+                    {selectedProduct && (
+                        <ProductDetailModal
+                            product={selectedProduct}
+                            onClose={() => setSelectedProduct(null)}
+                        />
+                    )}
+                </AnimatePresence>
             </main>
         </MotionConfig>
     );

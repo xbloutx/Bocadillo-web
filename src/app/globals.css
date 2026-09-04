@@ -3,8 +3,11 @@
 :root {
   --background: #FBFBFD;
   --foreground: #47210D;
+  --color-white: #FFFFFF;
   --color-antique: #F6E9D9;
-  --color-hazelnut: #94735B;
+  --color-copper: #B48355;
+  --color-hazelnut: #B48355; /* Faded Copper sincronizado con la paleta */
+  --color-bark: #6F3C20;
   --color-walnut: #47210D;
   --color-paper: #FFFFFF;
 }
@@ -12,8 +15,11 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-bocadillo-white: var(--color-white);
   --color-bocadillo-antique: var(--color-antique);
+  --color-bocadillo-copper: var(--color-copper);
   --color-bocadillo-hazelnut: var(--color-hazelnut);
+  --color-bocadillo-bark: var(--color-bark);
   --color-bocadillo-walnut: var(--color-walnut);
   --color-paper: var(--color-paper);
   --font-serif: var(--font-bitter);

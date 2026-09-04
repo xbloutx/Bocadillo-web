@@ -14,7 +14,6 @@ export default function CustomOrderBanner() {
         <section className="mt-12 bg-bocadillo-antique/40 backdrop-blur-sm rounded-3xl border border-black/5 p-6 sm:p-8 overflow-hidden shadow-sm">
             <div className="flex flex-col md:flex-row items-center justify-between gap-8">
                 
-                {/* Lado izquierdo: Icono de regalo y textos */}
                 <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
                     <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center text-bocadillo-walnut shadow-sm border border-black/5 flex-shrink-0">
                         <FiGift className="text-3xl text-bocadillo-copper" />
@@ -42,7 +41,6 @@ export default function CustomOrderBanner() {
                     </div>
                 </div>
 
-                {/* Lado derecho: Imagen de cajita de regalo/postres */}
                 <div className="relative w-full max-w-[280px] h-44 rounded-2xl overflow-hidden shadow-md border border-black/5 flex-shrink-0">
                     <Image
                         src="/images/producto-3.png"

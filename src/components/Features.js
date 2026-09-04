@@ -21,19 +21,19 @@ export default function Features() {
     ];
 
     return (
-        <section className="relative z-20 max-w-6xl mx-auto px-6 -mt-12 mb-10">
-            <div className="bg-white/40 backdrop-blur-xl rounded-2xl shadow-xl shadow-black/5 border border-black/5 py-5 px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <section className="relative z-20 max-w-6xl mx-auto px-6 -mt-10 mb-12">
+            <div className="bg-white/75 backdrop-blur-xl saturate-[180%] rounded-3xl shadow-xl shadow-bocadillo-walnut/5 border border-white/60 py-6 px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                 {items.map((item, index) => {
                     const IconComponent = item.icon;
                     return (
                         <div 
                             key={index} 
-                            className="flex flex-col items-center justify-center group cursor-pointer transition-transform duration-300 ease-out hover:-translate-y-1.5"
+                            className="flex flex-col items-center justify-center group cursor-pointer active:scale-95 transition-all duration-75 ease-out hover:-translate-y-1"
                         >
-                            <div className="w-12 h-12 rounded-full bg-bocadillo-antique/50 flex items-center justify-center text-bocadillo-walnut mb-3 group-hover:scale-110 group-hover:bg-bocadillo-antique transition-all duration-300 shadow-sm group-hover:shadow-md">
+                            <div className="w-12 h-12 rounded-full bg-bocadillo-antique/60 flex items-center justify-center text-bocadillo-walnut mb-3 group-hover:scale-110 group-hover:bg-bocadillo-copper group-hover:text-white transition-all duration-200 shadow-sm">
                                 <IconComponent className="text-xl" />
                             </div>
-                            <span className="font-serif text-sm md:text-base font-bold text-bocadillo-walnut tracking-wide">
+                            <span className="font-serif text-xs md:text-sm font-bold text-bocadillo-walnut tracking-tight">
                                 {item.text}
                             </span>
                         </div>

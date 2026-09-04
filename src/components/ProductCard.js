@@ -5,12 +5,23 @@ export default function ProductCard({ product, priority = false, onSelect }) {
         if (onSelect) onSelect(product);
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleSelect();
+        }
+    };
+
     return (
         <div 
+            role="button"
+            tabIndex={0}
             onClick={handleSelect}
-            className="group bg-paper rounded-3xl overflow-hidden border border-black/[0.05] shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(71,33,13,0.09)] hover:-translate-y-1.5 active:scale-[0.98] transition-all duration-300 ease-out flex flex-col h-full cursor-pointer"
+            onKeyDown={handleKeyDown}
+            aria-label={`Ver detalle de ${product.name}`}
+            className="group bg-paper rounded-3xl overflow-hidden border border-black/[0.05] shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(71,33,13,0.09)] hover:-translate-y-1.5 active:scale-[0.98] transition-all duration-300 ease-out flex flex-col h-full cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-bocadillo-copper focus-visible:outline-offset-2"
         >
-            {/* Contenedor de la imagen */}
+
             <div className="relative w-full h-60 bg-[#f5f5f7] overflow-hidden border-b border-black/[0.03]">
                 <Image 
                     src={product.image}
@@ -20,11 +31,10 @@ export default function ProductCard({ product, priority = false, onSelect }) {
                     className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                     priority={priority}
                 />
-                {/* Sutil sombra interior para enmarcar la foto */}
+
                 <div className="absolute inset-0 ring-1 ring-inset ring-black/5 pointer-events-none" />
             </div>
 
-            {/* Contenido de la tarjeta */}
             <div className="p-6 flex flex-col flex-grow justify-between">
                 <div>
                     <h3 className="font-serif text-sm text-bocadillo-walnut font-medium leading-snug line-clamp-3">

@@ -6,7 +6,7 @@
   --color-white: #FFFFFF;
   --color-antique: #F6E9D9;
   --color-copper: #B48355;
-  --color-hazelnut: #B48355; /* Faded Copper sincronizado con la paleta */
+  --color-hazelnut: #B48355; 
   --color-bark: #6F3C20;
   --color-walnut: #47210D;
   --color-paper: #FFFFFF;
@@ -28,6 +28,9 @@
 
 html {
   -webkit-tap-highlight-color: transparent;
+}
+
+html[data-scroll-behavior="smooth"] {
   scroll-behavior: smooth;
 }
 
@@ -61,5 +64,14 @@ button:focus-visible {
     backdrop-filter: none !important;
     background-color: var(--background) !important;
   }
+}
+
+/* Ocultar barra de scroll en carruseles horizontales pero manteniendo funcionalidad */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 

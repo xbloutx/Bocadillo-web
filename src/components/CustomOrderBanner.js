@@ -24,7 +24,7 @@ export default function CustomOrderBanner() {
                 {/* Miniatura cuadrada con bordes redondeados */}
                 <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-[#FAF7F4] flex-shrink-0 border border-black/5">
                     <Image
-                        src="/images/producto-3.png"
+                        src="/images/producto-3.webp"
                         alt="Combo personalizado"
                         fill
                         sizes="64px"
@@ -88,7 +88,7 @@ export default function CustomOrderBanner() {
 
                     <div className="relative w-full max-w-[280px] h-44 rounded-2xl overflow-hidden shadow-md border border-black/5 flex-shrink-0">
                         <Image
-                            src="/images/producto-3.png"
+                            src="/images/producto-3.webp"
                             alt="Combo personalizado Bocadillo"
                             fill
                             sizes="280px"

@@ -30,12 +30,12 @@ const STEPS = [
 const PAYMENT_METHODS = [
     { 
         name: "Yape", 
-        image: "/images/yape.png",
+        image: "/images/yape.webp",
         alt: "Logo Yape"
     },
     { 
         name: "Plin", 
-        image: "/images/plin.png",
+        image: "/images/plin.webp",
         alt: "Logo Plin"
     },
     { 

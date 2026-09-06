@@ -10,7 +10,7 @@ export default function Hero() {
                 <div className="order-2 lg:order-1 lg:col-span-5 flex flex-col items-center justify-center text-center pb-2 sm:py-6 lg:py-12 z-10">
                     <div className="flex flex-col items-center text-center max-w-[480px]">
                         <Image
-                            src="/images/logo-icons.png"
+                            src="/images/logo-icons.webp"
                             alt="Ilustración artesanal de pan, cupcake y bebida Bocadillo"
                             width={500}
                             height={120}
@@ -43,7 +43,7 @@ export default function Hero() {
                 <div className="order-1 lg:order-2 lg:col-span-7 relative flex items-center justify-center w-full mt-1 sm:mt-4 lg:mt-0">
                     <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] max-w-[900px] lg:max-w-none">
                         <Image
-                            src="/images/banner.png"
+                            src="/images/banner.webp"
                             alt="Banquete de productos artesanales Bocadillo recién horneados"
                             fill
                             sizes="(max-width: 1024px) 100vw, 58vw"

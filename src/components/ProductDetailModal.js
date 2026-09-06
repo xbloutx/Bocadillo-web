@@ -14,7 +14,7 @@ export default function ProductDetailModal({ product, onClose }) {
 
     const images = product?.images && product.images.length > 0 
         ? product.images 
-        : [product?.image || "/images/producto-1.png"];
+        : [product?.image || "/images/producto-1.webp"];
 
     // Cerrar con tecla Escape (accesibilidad estilo Apple)
     const handleKeyDown = useCallback(

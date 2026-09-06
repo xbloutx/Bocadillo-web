@@ -16,7 +16,7 @@ export default function Footer() {
                 {/* Detalle Artesanal del Corazón Bocadillo */}
                 <div className="hover:scale-110 active:scale-95 transition-transform duration-300 ease-out cursor-pointer -mb-0.5">
                     <Image 
-                        src="/images/footer-heart.png"
+                        src="/images/footer-heart.webp"
                         alt="Bocadillo Heart"
                         width={2172}
                         height={724}
@@ -141,7 +141,7 @@ export default function Footer() {
                 
                 <div className="hover:scale-110 active:scale-95 transition-transform duration-300 ease-out cursor-pointer">
                     <Image 
-                        src="/images/footer-heart.png"
+                        src="/images/footer-heart.webp"
                         alt="Bocadillo Heart"
                         width={2172}
                         height={724}

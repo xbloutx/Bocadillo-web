@@ -120,7 +120,7 @@ export default function ContactoPage() {
                 <div className="relative rounded-2xl overflow-hidden border border-black/5 shadow-xs bg-[#FAF7F4]">
                     <div className="relative w-full h-32">
                         <Image
-                            src="/images/box/box-arriba.jpg"
+                            src="/images/box/box-arriba.webp"
                             alt="Caja artesanal Bocadillo"
                             fill
                             sizes="(max-width: 640px) 100vw, 400px"

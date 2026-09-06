@@ -38,7 +38,7 @@ export default function NosotrosPage() {
                     {/* Foto artesanal ilustrativa en móvil */}
                     <div className="relative w-full h-32 sm:hidden rounded-xl overflow-hidden mb-3.5 border border-black/5">
                         <Image
-                            src="/images/fondo/pastel.jpg"
+                            src="/images/fondo/pastel.webp"
                             alt="Preparación artesanal Bocadillo"
                             fill
                             sizes="(max-width: 640px) 100vw, 400px"

@@ -6,19 +6,19 @@ const CATEGORIES = [
     {
         id: "dulces",
         title: "Dulces",
-        image: "/images/fondo/tartaletas.jpg",
+        image: "/images/fondo/tartaletas.webp",
         href: "/catalogo?cat=dulces",
     },
     {
         id: "salados",
         title: "Salados",
-        image: "/images/fondo/pastel.jpg",
+        image: "/images/fondo/pastel.webp",
         href: "/catalogo?cat=salados",
     },
     {
         id: "boxes",
         title: "Boxes Escolares",
-        image: "/images/box.jpg",
+        image: "/images/box.webp",
         href: "/catalogo?cat=boxes-escolares",
     },
 ];
@@ -32,7 +32,7 @@ export default function CategoryPreview() {
             <div className="flex items-center justify-center gap-1.5 mb-3.5 sm:mb-6 text-center">
                 <div className="hover:scale-110 active:scale-95 transition-transform duration-300 ease-out cursor-pointer">
                     <Image 
-                        src="/images/iz-trigo.png"
+                        src="/images/iz-trigo.webp"
                         alt="Bocadillo Trigo Izquierdo"
                         width={2172}
                         height={724}
@@ -46,7 +46,7 @@ export default function CategoryPreview() {
                 </h2>
                 <div className="hover:scale-110 active:scale-95 transition-transform duration-300 ease-out cursor-pointer">
                     <Image 
-                        src="/images/de-trigo.png"
+                        src="/images/de-trigo.webp"
                         alt="Bocadillo Trigo Derecho"
                         width={2172}
                         height={724}

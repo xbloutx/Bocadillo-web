@@ -15,6 +15,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
   * Iniciar servidor de desarrollo: `pnpm dev`
   * Construir para producción: `pnpm build`
   * Ejecutar linter: `pnpm lint`
+  * Optimizar fotos en lotes a WebP: `pnpm optimize`
   * Agregar dependencias: `pnpm add <paquete>` / `pnpm add -D <paquete>`
 * **No usar `npm` ni `yarn`**.
 

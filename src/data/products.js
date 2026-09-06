@@ -6,11 +6,11 @@ export const products = [
         presentation: "Bolsa de papel",
         price: 11.50,
         category: "sandwiches",
-        image: "/images/producto-1.png",
+        image: "/images/box/box2.jpg",
         images: [
-            "/images/producto-1.png",
-            "/images/producto-2.png",
-            "/images/producto-3.png",
+            "/images/box/box2.jpg",
+            "/images/fondo/minipay.jpg",
+            "/images/fondo/triples.jpg",
         ],
         items: [
             "1 Sandwich de pollo casero",
@@ -26,11 +26,11 @@ export const products = [
         presentation: "Bolsa de papel",
         price: 8.50,
         category: "sandwiches",
-        image: "/images/producto-2.png",
+        image: "/images/box/box3.jpg",
         images: [
-            "/images/producto-2.png",
-            "/images/producto-1.png",
-            "/images/producto-3.png",
+            "/images/box/box3.jpg",
+            "/images/fondo/minipay.jpg",
+            "/images/fondo/pastel.jpg",
         ],
         items: [
             "1 Sandwich de pollo casero",
@@ -46,11 +46,11 @@ export const products = [
         presentation: "Bolsa de papel",
         price: 9.00,
         category: "dulces",
-        image: "/images/producto-3.png",
+        image: "/images/box/box4.jpg",
         images: [
-            "/images/producto-3.png",
-            "/images/producto-4.png",
-            "/images/producto-1.png",
+            "/images/box/box4.jpg",
+            "/images/fondo/chocodonas.jpg",
+            "/images/fondo/chocodonas2.jpg",
         ],
         items: [
             "1 Petipan relleno con pollo deshilachado",
@@ -66,11 +66,11 @@ export const products = [
         presentation: "Bolsa de papel",
         price: 10.50,
         category: "sandwiches",
-        image: "/images/producto-4.png",
+        image: "/images/box/box1.jpg",
         images: [
-            "/images/producto-4.png",
-            "/images/producto-1.png",
-            "/images/producto-2.png",
+            "/images/box/box1.jpg",
+            "/images/fondo/petitepanes.jpg",
+            "/images/fondo/alfajores.jpg",
         ],
         items: [
             "1 Sandwich de pollo con receta especial",

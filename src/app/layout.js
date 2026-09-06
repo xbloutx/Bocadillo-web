@@ -32,8 +32,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es">
-      <body className={`${bitter.variable} ${dancing.variable} flex flex-col min-h-screen selection:bg-bocadillo-copper/20 selection:text-bocadillo-walnut`}>
+    <html lang="es" data-scroll-behavior="smooth" suppressHydrationWarning>
+      <body 
+        suppressHydrationWarning 
+        className={`${bitter.variable} ${dancing.variable} flex flex-col min-h-screen selection:bg-bocadillo-copper/20 selection:text-bocadillo-walnut`}
+      >
         <Header />
         <div className="flex-1 flex flex-col">{children}</div>
         <Footer />

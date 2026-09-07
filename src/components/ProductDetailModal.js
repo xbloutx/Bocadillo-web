@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform, useDragControls, animate } from "framer-motion";
 import { FaWhatsapp, FaChevronLeft, FaChevronRight, FaXmark } from "react-icons/fa6";
 import { FiCheck, FiMinus, FiPlus } from "react-icons/fi";
 
@@ -11,6 +11,62 @@ const WHATSAPP_NUMBER = "51902733258";
 export default function ProductDetailModal({ product, onClose }) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [quantity, setQuantity] = useState(1);
+    const [isMobile, setIsMobile] = useState(() => {
+        if (typeof window !== "undefined") {
+            return window.innerWidth < 640;
+        }
+        return false;
+    });
+
+    // Gestos fluidos Framer Motion estilo Apple
+    const y = useMotionValue(0);
+    const backdropOpacity = useTransform(y, [0, 300], [1, 0]);
+    const dragControls = useDragControls();
+
+    const contentRef = useRef(null);
+    const touchStartY = useRef(0);
+    const isPullingDown = useRef(false);
+
+    // Detección de dispositivo móvil
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 640);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    // Soporte táctil en el cuerpo deslizable para tirar hacia abajo cuando está arriba
+    const handleContentTouchStart = (e) => {
+        if (!isMobile) return;
+        touchStartY.current = e.touches[0].clientY;
+        isPullingDown.current = false;
+    };
+
+    const handleContentTouchMove = (e) => {
+        if (!isMobile || !contentRef.current) return;
+        const currentY = e.touches[0].clientY;
+        const diff = currentY - touchStartY.current;
+
+        // Si está en el tope del scroll y tira hacia abajo
+        if (contentRef.current.scrollTop <= 0 && diff > 0) {
+            isPullingDown.current = true;
+            y.set(diff * 0.65);
+        } else if (isPullingDown.current && diff <= 0) {
+            isPullingDown.current = false;
+            y.set(0);
+        }
+    };
+
+    const handleContentTouchEnd = () => {
+        if (!isMobile || !isPullingDown.current) return;
+        isPullingDown.current = false;
+        const currentY = y.get();
+        if (currentY > 90) {
+            onClose();
+        } else {
+            animate(y, 0, { type: "spring", damping: 28, stiffness: 320 });
+        }
+    };
 
     const images = product?.images && product.images.length > 0 
         ? product.images 
@@ -63,54 +119,99 @@ export default function ProductDetailModal({ product, onClose }) {
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-stretch justify-center sm:justify-end p-0 overflow-hidden">
             {/* Backdrop oscurecido con desenfoque de fondo */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
+                style={isMobile ? { opacity: backdropOpacity } : undefined}
+                transition={{ duration: 0.25 }}
                 onClick={onClose}
-                className="fixed inset-0 bg-black/50 backdrop-blur-md"
+                className="fixed inset-0 bg-black/45 backdrop-blur-sm"
                 aria-hidden="true"
             />
 
-            {/* Modal / Sheet interactivo */}
+            {/* Modal / Sheet interactivo: Bottom Sheet en celular / Side Drawer en PC */}
             <motion.div
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="modal-title"
-                initial={{ y: "100%", opacity: 0.9 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: "100%", opacity: 0 }}
-                transition={{ type: "spring", damping: 28, stiffness: 320 }}
-                className="relative w-full sm:max-w-lg bg-paper rounded-t-[32px] sm:rounded-3xl shadow-2xl overflow-hidden z-10 max-h-[92vh] flex flex-col border-t sm:border border-white/60"
+                initial={isMobile ? { y: "100%", opacity: 0.9 } : { x: "100%" }}
+                animate={isMobile ? { y: 0, opacity: 1 } : { x: 0 }}
+                exit={isMobile ? { y: "100%", opacity: 0 } : { x: "100%" }}
+                transition={{ type: "spring", damping: 28, stiffness: 280 }}
+                style={isMobile ? { y } : undefined}
+                drag={isMobile ? "y" : false}
+                dragControls={dragControls}
+                dragListener={false}
+                dragConstraints={{ top: 0, bottom: 0 }}
+                dragElastic={{ top: 0.05, bottom: 0.8 }}
+                onDragEnd={(e, { offset, velocity }) => {
+                    if (offset.y > 90 || velocity.y > 400) {
+                        onClose();
+                    } else {
+                        animate(y, 0, { type: "spring", damping: 28, stiffness: 320 });
+                    }
+                }}
+                className="relative w-full sm:max-w-md md:max-w-lg lg:max-w-[520px] bg-paper rounded-t-[32px] sm:rounded-t-none sm:rounded-l-3xl shadow-2xl overflow-hidden z-10 max-h-[92vh] sm:max-h-full h-auto sm:h-full flex flex-col border-t sm:border-t-0 sm:border-l border-white/60 sm:border-black/[0.08]"
             >
-                {/* Grab Handle nativo estilo iOS (solo móvil) */}
-                <div className="w-10 h-1 bg-black/20 rounded-full mx-auto mt-2.5 mb-1 sm:hidden shrink-0" />
+                {/* Pestaña flotante de cierre rápido a la izquierda (solo en PC - estilo foto 2) */}
+                {/* Zona de Arrastre Superior (Grab Handle + Header táctil en móvil) */}
+                <div
+                    onPointerDown={(e) => {
+                        if (!isMobile) return;
+                        if (e.target.closest("button, a, input")) return;
+                        dragControls.start(e);
+                    }}
+                    className="touch-none select-none cursor-grab active:cursor-grabbing sm:cursor-default"
+                >
+                    {/* Grab Handle nativo estilo iOS (solo móvil) */}
+                    <div className="w-full pt-3 pb-1 flex items-center justify-center sm:hidden">
+                        <div className="w-12 h-1.5 bg-black/20 hover:bg-black/35 rounded-full transition-colors" />
+                    </div>
 
-                {/* Barra superior estilo Apple con botón cerrar */}
-                <div className="flex items-center justify-between px-5 pt-1 sm:pt-4 pb-2.5 border-b border-black/5 bg-paper/85 backdrop-blur-md sticky top-0 z-20">
-                    <button
-                        onClick={onClose}
-                        aria-label="Cerrar detalle"
-                        className="w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center text-bocadillo-walnut active:scale-90 transition-transform duration-75"
-                    >
-                        <FaChevronLeft className="text-xs sm:hidden" />
-                        <FaXmark className="text-sm hidden sm:block" />
-                    </button>
+                    {/* Barra superior estilo Apple con botón cerrar */}
+                    <div className="flex items-center justify-between px-5 sm:px-7 pt-1 sm:pt-4 pb-2.5 sm:pb-3.5 border-b border-black/5 bg-paper/85 backdrop-blur-md sticky top-0 z-20">
+                        {/* Botón volver solo en móvil */}
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            aria-label="Cerrar detalle"
+                            className="sm:hidden w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center text-bocadillo-walnut active:scale-90 transition-transform duration-75 pointer-events-auto"
+                        >
+                            <FaChevronLeft className="text-xs" />
+                        </button>
 
-                    <h2 id="modal-title" className="font-serif font-black text-xs sm:text-sm uppercase tracking-widest text-bocadillo-walnut">
-                        DETALLE DEL COMBO
-                    </h2>
+                        <h2 id="modal-title" className="font-serif font-black text-xs sm:text-sm uppercase tracking-widest text-bocadillo-walnut text-center sm:text-left pointer-events-none">
+                            DETALLE DEL COMBO
+                        </h2>
 
-                    <div className="w-8" aria-hidden="true" />
+                        {/* Botón cerrar X en PC: ubicado de forma limpia en la esquina superior derecha */}
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            aria-label="Cerrar panel"
+                            className="hidden sm:flex w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 active:scale-90 items-center justify-center text-bocadillo-walnut transition-all cursor-pointer pointer-events-auto"
+                        >
+                            <FaXmark className="text-sm" />
+                        </button>
+
+                        {/* Espacio en móvil para centrar título */}
+                        <div className="w-8 sm:hidden" aria-hidden="true" />
+                    </div>
                 </div>
 
                 {/* Contenido deslizable */}
-                <div className="overflow-y-auto px-5 sm:px-6 py-3.5 sm:py-4 flex-1 space-y-4">
-                    {/* Carrusel de Imágenes (escala optimizada h-48 en móvil, h-64 en desktop) */}
-                    <div className="relative w-full h-48 sm:h-64 rounded-2xl overflow-hidden bg-bocadillo-antique/30 border border-black/5">
+                <div
+                    ref={contentRef}
+                    onTouchStart={handleContentTouchStart}
+                    onTouchMove={handleContentTouchMove}
+                    onTouchEnd={handleContentTouchEnd}
+                    className="overflow-y-auto overscroll-contain px-5 sm:px-7 py-3.5 sm:py-5 flex-1 space-y-4 sm:space-y-5"
+                >
+                    {/* Carrusel de Imágenes (escala optimizada h-48 en móvil, h-72 en desktop) */}
+                    <div className="relative w-full h-48 sm:h-72 rounded-2xl overflow-hidden bg-bocadillo-antique/30 border border-black/5 shadow-xs">
                         <span className="absolute top-2.5 right-2.5 z-10 text-[10px] font-medium bg-black/40 text-white px-2 py-0.5 rounded-full backdrop-blur-sm">
                             Imágenes referenciales
                         </span>
@@ -202,37 +303,37 @@ export default function ProductDetailModal({ product, onClose }) {
                     )}
                 </div>
 
-                {/* Barra de acción inferior compacta con Selector de Cantidad + WhatsApp */}
-                <div className="p-3.5 sm:p-5 border-t border-black/5 bg-paper/95 backdrop-blur-md space-y-2.5">
+                {/* Barra de acción inferior con Selector de Cantidad + WhatsApp */}
+                <div className="p-3.5 sm:p-5 border-t border-black/5 bg-paper/95 backdrop-blur-md space-y-2.5 sm:space-y-3 shrink-0">
                     {/* Fila: Selector de Cantidad + Total */}
                     <div className="flex items-center justify-between px-1">
                         {/* Selector de cantidad interactivo */}
-                        <div className="flex items-center gap-1.5 bg-bocadillo-antique/50 border border-bocadillo-copper/20 rounded-full p-0.5">
+                        <div className="flex items-center gap-1.5 bg-bocadillo-antique/50 border border-bocadillo-copper/20 rounded-full p-0.5 sm:p-1">
                             <button
                                 type="button"
                                 onClick={decreaseQuantity}
                                 disabled={quantity <= 1}
                                 aria-label="Disminuir cantidad"
-                                className="w-7 h-7 rounded-full bg-white text-bocadillo-walnut flex items-center justify-center hover:bg-bocadillo-antique active:scale-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xs"
+                                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-bocadillo-walnut flex items-center justify-center hover:bg-bocadillo-antique active:scale-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xs"
                             >
-                                <FiMinus className="text-xs" />
+                                <FiMinus className="text-xs sm:text-sm" />
                             </button>
-                            <span className="w-7 text-center font-serif font-black text-sm text-bocadillo-walnut select-none">
+                            <span className="w-7 sm:w-8 text-center font-serif font-black text-sm sm:text-base text-bocadillo-walnut select-none">
                                 {quantity}
                             </span>
                             <button
                                 type="button"
                                 onClick={increaseQuantity}
                                 aria-label="Aumentar cantidad"
-                                className="w-7 h-7 rounded-full bg-white text-bocadillo-walnut flex items-center justify-center hover:bg-bocadillo-antique active:scale-90 transition-all shadow-xs"
+                                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-bocadillo-walnut flex items-center justify-center hover:bg-bocadillo-antique active:scale-90 transition-all shadow-xs"
                             >
-                                <FiPlus className="text-xs" />
+                                <FiPlus className="text-xs sm:text-sm" />
                             </button>
                         </div>
 
                         {/* Precio Total Dinámico */}
                         <div className="text-right">
-                            <span className="text-[10px] uppercase font-bold text-bocadillo-copper block leading-none mb-0.5">
+                            <span className="text-[10px] sm:text-xs uppercase font-bold text-bocadillo-copper block leading-none mb-0.5">
                                 Total ({quantity} {quantity === 1 ? "combo" : "combos"})
                             </span>
                             <span className="font-serif text-2xl sm:text-3xl font-black text-bocadillo-walnut tracking-tight leading-tight">
@@ -246,13 +347,13 @@ export default function ProductDetailModal({ product, onClose }) {
                         href={whatsappUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white py-3 px-5 rounded-full font-serif font-bold text-sm shadow-md shadow-[#25D366]/25 active:scale-[0.98] transition-all duration-75"
+                        className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white py-3 sm:py-3.5 px-5 sm:px-6 rounded-full font-serif font-bold text-sm tracking-wide shadow-md shadow-[#25D366]/25 active:scale-[0.98] transition-all duration-75"
                     >
                         <FaWhatsapp className="text-lg" />
                         <span>PEDIR POR WHATSAPP</span>
                     </a>
 
-                    <p className="text-[10px] sm:text-[11px] text-center text-foreground/60 leading-tight">
+                    <p className="font-serif text-[10px] sm:text-xs text-center text-bocadillo-copper/80 font-medium leading-tight">
                         Coordinamos fecha de entrega, delivery o punto de recojo directamente por chat ♡
                     </p>
                 </div>

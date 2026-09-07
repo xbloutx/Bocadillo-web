@@ -142,6 +142,110 @@ export const products = [
 
     {
     id: 8,
+    name: "Bowl de Causa Limeña de Pollo + Refresco de Maracuyá 300ml",
+    shortName: "Bowl de Causa Limeña + Refresco",
+    presentation: "Bolsa de papel",
+    price: 11.00, 
+    category: "salados",
+    image: "/images/box/bolsa1.webp",
+    images: [
+        "/images/box/bolsa1.webp",
+        "/images/fondo/minicausas2.webp"
+    ],
+    items: [
+        "1 Bowl personal de Causa Limeña casera con pechuga de pollo y verduras",
+        "Decoración tradicional con huevo cocido y perejil fresco",
+        "1 Refresco de Maracuyá natural 300ml",
+        "Empaque individual en bolsa kraft ecológica"
+    ],
+    description: "Nuestra clásica causa limeña servida en un práctico bowl individual: suave papa amarilla prensada al toque de ají amarillo y limón criollo, con generoso relleno de pollo y jugo natural."
+    },
+
+    {
+    id: 9,
+    name: "Sandwich de pollo al hilo + Cupcake de chocolate + Refresco de Maracuyá 300ml",
+    shortName: "Sandwich al hilo + Cupcake + Refresco",
+    presentation: "Bolsa de papel",
+    price: 12.00,
+    category: "sandwiches",
+    image: "/images/box/bolsa2.webp",
+    images: [
+        "/images/box/bolsa2.webp",
+        "/images/fondo/cupcakes.webp"
+    ],
+    items: [
+        "1 Sandwich de pollo deshilachado con papitas al hilo crocantes",
+        "1 Cupcake de chocolate con crema chantilly y grajeas",
+        "1 Refresco de Maracuyá fresco 300ml",
+        "Empaque individual en bolsa kraft ecológica"
+    ],
+    description: "El combo favorito para la media tarde: pan tierno con pollo sazonado y el crujiente toque de las papitas al hilo, acompañado de un cupcake recién decorado y jugo fresco."
+    },
+
+    {
+    id: 10,
+    name: "Tajada de Keke Marmoleado Casero + Refresco de Maracuyá 300ml",
+    shortName: "Tajada de Keke Marmoleado + Refresco",
+    presentation: "Bolsa de papel",
+    price: 7.50,
+    category: "dulces",
+    image: "/images/box/bolsa3.webp",
+    images: [
+        "/images/box/bolsa3.webp"
+    ],
+    items: [
+        "1 Tajada generosa de Keke Marmoleado tradicional (vainilla y cacao)",
+        "1 Refresco de Maracuyá fresco 300ml",
+        "Empaque individual en bolsa kraft ecológica"
+    ],
+    description: "El sabor de casa de toda la vida: keke esponjoso y aromático con el clásico veteado de vainilla y chocolate horneado al punto exacto, perfecto con su maracuyá heladita."
+    },
+
+    {
+    id: 11,
+    name: "Sandwich Triple de Jamón y Queso + Muffin con Chispas + Refresco de Maracuyá 300ml",
+    shortName: "Triple Jamón y Queso + Muffin + Refresco",
+    presentation: "Bolsa de papel",
+    price: 11.50,
+    category: "sandwiches",
+    image: "/images/box/bolsa4.webp",
+    images: [
+        "/images/box/bolsa4.webp",
+        "/images/fondo/cupcakes2.webp",
+        "/images/fondo/triples.webp"
+    ],
+    items: [
+        "1 Sandwich triple de pan blanco suave con jamón inglés y queso Edam",
+        "1 Muffin casero dorado con chispas de chocolate",
+        "1 Refresco de Maracuyá fresco 300ml",
+        "Empaque individual en bolsa kraft ecológica"
+    ],
+    description: "El infaltable para refrigerios de oficina o estudio: un triple clásico bien armado de jamón y queso, junto a un muffin dulce esponjoso con chispas de chocolate y maracuyá."
+    },
+
+    {
+    id: 12,
+    name: "Sandwich de pollo al hilo + Paquete de Alfajorcitos + Refresco de Maracuyá 300ml",
+    shortName: "Sandwich al hilo + Alfajorcitos + Refresco",
+    presentation: "Bolsa de papel",
+    price: 11.50,
+    category: "sandwiches",
+    image: "/images/box/bolsa5.webp",
+    images: [
+        "/images/box/bolsa5.webp",
+        "/images/fondo/alfajores.webp"
+    ],
+    items: [
+        "1 Sandwich de pollo deshilachado con papitas al hilo crocantes",
+        "1 Paquetito de alfajorcitos de maicena con manjar blanco de olla y lazo",
+        "1 Refresco de Maracuyá fresco 300ml",
+        "Empaque individual en bolsa kraft ecológica"
+    ],
+    description: "La combinación tradicional que nunca falla: el toque salado y crocante de nuestro sandwich de pollo con papitas al hilo, seguido por suaves alfajorcitos que se deshacen en la boca y maracuyá fresca."
+    },
+
+    {
+    id: 13,
     name: "Alfajorcitos Artesanales de Manjar blanco",
     shortName: "Alfajorcitos de Manjar blanco",
     price: 1.50, 
@@ -159,7 +263,7 @@ export const products = [
     },
     
     {
-    id: 9,
+    id: 14,
     name: "Mini Donas de Chocolate con Toppings",
     shortName: "Mini Donas",
     price: 1.50, 
@@ -175,7 +279,7 @@ export const products = [
     },
 
     {
-    id: 10,
+    id: 15,
     name: "Mini Donas Glaseadas Colores Pastel",
     shortName: "Mini Donas Glaseadas",
     price: 1.50, 
@@ -192,7 +296,7 @@ export const products = [
     },   
 
     {
-    id: 11,
+    id: 16,
     name: "Mini Cupcakes con Chantilly y Grajeas",
     shortName: "Mini Cupcakes",
     price: 1.50, 
@@ -209,7 +313,7 @@ export const products = [
     },
 
     {
-    id: 12,
+    id: 17,
     name: "Muffins Artesanales de Chispas de Chocolate",
     shortName: "Muffins Artesanales",
     price: 1.50, 
@@ -226,7 +330,7 @@ export const products = [
     },
 
     {
-    id: 13,
+    id: 18,
     name: "Mini Pyes de Manzana Acaramelada",
     shortName: "Mini Pyes",
     price: 1.50, 
@@ -243,7 +347,7 @@ export const products = [
     },
 
     {
-    id: 14,
+    id: 19,
     name: "Mini Tartaletas de Frutas y Crema Pastelera",
     shortName: "Mini Pyes",
     price: 1.50, 
@@ -260,7 +364,7 @@ export const products = [
     },
 
     {
-    id: 15,
+    id: 20,
     name: "Mini Causitas Limeñas Tradicionales",
     shortName: "Mini Causitas",
     price: 1.50, 
@@ -277,7 +381,7 @@ export const products = [
     },
 
     {
-    id: 16,
+    id: 21,
     name: "Porciones de Pastel de Acelga Artesanal",
     shortName: "Pastel de Acelga",
     price: 1.50, 
@@ -294,7 +398,7 @@ export const products = [
     },
 
     {
-    id: 17,
+    id: 22,
     name: "Petipanes con Pollo a la Crema",
     shortName: "Petipanes con Pollo",
     price: 1.50, 
@@ -311,7 +415,7 @@ export const products = [
     },
 
     {
-    id: 18,
+    id: 23,
     name: "Porciones de Pastel de Acelga Artesanal",
     shortName: "Pastel de Acelga",
     price: 1.50, 
@@ -327,4 +431,3 @@ export const products = [
     ]
     },
 ];
-

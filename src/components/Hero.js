@@ -4,10 +4,10 @@ import Link from "next/link";
 export default function Hero() {
     return (
         <section className="relative bg-[#F3E3D2] overflow-hidden">
-            <div className="grid lg:grid-cols-12 items-center max-w-[1700px] mx-auto px-5 sm:px-10 lg:px-16 pt-2 pb-16 sm:pt-6 sm:pb-20 lg:pt-8 lg:pb-24">
+            <div className="flex flex-col lg:grid lg:grid-cols-12 items-center max-w-[1700px] mx-auto px-5 sm:px-10 lg:px-16 pt-3 pb-16 sm:pt-6 sm:pb-20 lg:pt-8 lg:pb-24">
 
-                {/* Columna: Marca, Eslogan y CTA (Abajo en móvil: order-2, Izquierda en desktop: lg:order-1) */}
-                <div className="order-2 lg:order-1 lg:col-span-5 flex flex-col items-center justify-center text-center pb-2 sm:py-6 lg:py-12 z-10">
+                {/* Bloque de Marca y Logo (En móvil: 1° Arriba | En desktop: Columna izquierda lg:col-span-5) */}
+                <div className="w-full lg:col-span-5 flex flex-col items-center justify-center text-center pt-1 pb-1 sm:py-6 lg:py-12 z-10">
                     <div className="flex flex-col items-center text-center max-w-[480px]">
                         <Image
                             src="/images/logo-icons.webp"
@@ -30,17 +30,18 @@ export default function Hero() {
                             Dulces momentos, hechos en casa ♡
                         </p>
                     
+                        {/* Botón CTA en Desktop (dentro de la columna de marca) */}
                         <Link
                             href="/catalogo"
-                            className="inline-flex items-center justify-center font-serif mt-3 sm:mt-7 bg-bocadillo-walnut text-[#F6E9D9] px-8 sm:px-10 py-2.5 sm:py-4 rounded-full font-bold text-xs sm:text-base tracking-widest uppercase hover:bg-bocadillo-bark active:scale-[0.97] transition-all duration-100 ease-out shadow-lg shadow-bocadillo-walnut/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bocadillo-copper min-h-[44px]"
+                            className="hidden lg:inline-flex items-center justify-center font-serif mt-7 bg-bocadillo-walnut text-[#F6E9D9] px-10 py-4 rounded-full font-bold text-base tracking-widest uppercase hover:bg-bocadillo-bark active:scale-[0.97] transition-all duration-100 ease-out shadow-lg shadow-bocadillo-walnut/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bocadillo-copper min-h-[44px]"
                         >
                             VER CATÁLOGO
                         </Link>
                     </div>
                 </div>
                 
-                {/* Columna: Bodegón de Productos (Arriba en móvil: order-1, Derecha en desktop: lg:order-2) */}
-                <div className="order-1 lg:order-2 lg:col-span-7 relative flex items-center justify-center w-full mt-1 sm:mt-4 lg:mt-0">
+                {/* Bodegón de Productos / Banner (En móvil: 2° Centro | En desktop: Columna derecha lg:col-span-7) */}
+                <div className="w-full lg:col-span-7 relative flex items-center justify-center mt-2 sm:mt-4 lg:mt-0">
                     <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] max-w-[900px] lg:max-w-none">
                         <Image
                             src="/images/banner.webp"
@@ -52,6 +53,17 @@ export default function Hero() {
                         />
                     </div>
                 </div>
+
+                {/* Botón CTA en Móvil (En móvil: 3° Abajo del banner | En desktop: oculto) */}
+                <div className="w-full flex justify-center mt-3 sm:mt-5 lg:hidden z-10">
+                    <Link
+                        href="/catalogo"
+                        className="inline-flex items-center justify-center font-serif bg-bocadillo-walnut text-[#F6E9D9] px-8 sm:px-10 py-2.5 sm:py-3.5 rounded-full font-bold text-xs sm:text-sm tracking-widest uppercase hover:bg-bocadillo-bark active:scale-[0.97] transition-all duration-100 ease-out shadow-lg shadow-bocadillo-walnut/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bocadillo-copper min-h-[44px]"
+                    >
+                        VER CATÁLOGO
+                    </Link>
+                </div>
+
             </div>            
         </section>
     );

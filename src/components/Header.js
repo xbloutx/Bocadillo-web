@@ -70,7 +70,7 @@ export default function Header() {
                     {/* Logo: Versión Móvil centrado y discreto (sin competir con el Hero) */}
                     <Link 
                         href="/" 
-                        className="md:hidden font-serif text-xs font-bold tracking-[0.22em] text-bocadillo-walnut/85 active:scale-95 transition-transform"
+                        className="md:hidden font-serif text-base font-bold text-bocadillo-walnut/85 active:scale-95 transition-transform"
                     >
                         BOCADILLO
                     </Link>

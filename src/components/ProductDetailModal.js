@@ -100,21 +100,44 @@ export default function ProductDetailModal({ product, onClose }) {
         setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
     };
 
+    const handleQuantityChange = (e) => {
+        const val = e.target.value;
+        if (val === "") {
+            setQuantity("");
+            return;
+        }
+        const num = parseInt(val, 10);
+        if (!isNaN(num) && num > 0) {
+            setQuantity(Math.min(num, 999));
+        }
+    };
+
+    const handleQuantityBlur = () => {
+        if (!quantity || Number(quantity) < 1) {
+            setQuantity(1);
+        }
+    };
+
     const decreaseQuantity = () => {
-        setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+        setQuantity((prev) => (Number(prev) > 1 ? Number(prev) - 1 : 1));
     };
 
     const increaseQuantity = () => {
-        setQuantity((prev) => (prev < 50 ? prev + 1 : prev));
+        setQuantity((prev) => (Number(prev) < 999 ? Number(prev) + 1 : prev));
     };
 
-    const totalPrice = (product.price * quantity).toFixed(2);
+    const currentQty = typeof quantity === "number" && quantity >= 1 ? quantity : 1;
+    const totalPrice = (product.price * currentQty).toFixed(2);
+
+    const unitText = product.unitLabel 
+        ? (currentQty === 1 ? product.unitLabel.singular : product.unitLabel.plural)
+        : (currentQty === 1 ? "unidad" : "unidades");
 
     // Mensaje dinámico según la cantidad seleccionada
     const whatsappMessage = encodeURIComponent(
-        quantity === 1
-            ? `¡Hola Bocadillo! ♡ Me interesa pedir el combo:\n*${product.name}*\nCantidad: 1\nPrecio: S/ ${totalPrice}\n¿Tienen disponibilidad para coordinar la entrega?`
-            : `¡Hola Bocadillo! ♡ Me interesa pedir:\n*${quantity} combos de ${product.name}*\nTotal: S/ ${totalPrice}\n¿Tienen disponibilidad para coordinar la entrega?`
+        currentQty === 1
+            ? `¡Hola Bocadillo! ♡ Me interesa pedir:\n*${product.name}*\nCantidad: 1\nPrecio: S/ ${totalPrice}\n¿Tienen disponibilidad para coordinar la entrega?`
+            : `¡Hola Bocadillo! ♡ Me interesa pedir:\n*${currentQty} ${unitText} de ${product.name}*\nTotal: S/ ${totalPrice}\n¿Tienen disponibilidad para coordinar la entrega?`
     );
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`;
 
@@ -123,7 +146,7 @@ export default function ProductDetailModal({ product, onClose }) {
             onClick={(e) => {
                 if (e.target === e.currentTarget) onClose();
             }}
-            className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6 lg:p-10 overflow-hidden"
+            className="fixed inset-0 h-dvh z-50 flex items-end sm:items-center justify-center p-0 sm:p-6 lg:p-10 overflow-hidden"
         >
             {/* Backdrop oscurecido con desenfoque de fondo */}
             <motion.div
@@ -159,7 +182,7 @@ export default function ProductDetailModal({ product, onClose }) {
                         animate(y, 0, { type: "spring", damping: 28, stiffness: 320 });
                     }
                 }}
-                className="relative w-full sm:max-w-4xl lg:max-w-5xl bg-paper rounded-t-[32px] sm:rounded-[32px] shadow-2xl overflow-hidden z-10 max-h-[92vh] sm:max-h-[88vh] flex flex-col border-t sm:border border-white/60 sm:border-black/[0.08]"
+                className="relative w-full sm:max-w-4xl lg:max-w-5xl bg-paper rounded-t-[32px] sm:rounded-[32px] shadow-2xl overflow-hidden z-10 max-h-[calc(100dvh-4.5rem)] sm:max-h-[88vh] flex flex-col border-t sm:border border-white/60 sm:border-black/[0.08]"
             >
                 {/* Zona de Arrastre Superior (Grab Handle + Header táctil solo en móvil) */}
                 <div
@@ -168,7 +191,7 @@ export default function ProductDetailModal({ product, onClose }) {
                         if (e.target.closest("button, a, input")) return;
                         dragControls.start(e);
                     }}
-                    className="touch-none select-none cursor-grab active:cursor-grabbing sm:hidden"
+                    className="touch-none select-none cursor-grab active:cursor-grabbing sm:hidden shrink-0"
                 >
                     {/* Grab Handle nativo estilo iOS (solo móvil) */}
                     <div className="w-full pt-3 pb-1 flex items-center justify-center">
@@ -197,8 +220,8 @@ export default function ProductDetailModal({ product, onClose }) {
                 {/* Estructura: 1 columna en móvil / 2 columnas divididas en PC */}
                 <div className="flex flex-col sm:grid sm:grid-cols-12 flex-1 overflow-hidden min-h-0">
                     {/* COLUMNA IZQUIERDA: Carrusel de Fotos (Full alto en PC / Arriba en móvil) */}
-                    <div className="w-full sm:col-span-5 lg:col-span-6 p-4 sm:p-6 lg:p-8 flex flex-col justify-center bg-bocadillo-antique/25 sm:border-r border-black/5 shrink-0">
-                        <div className="relative w-full h-48 sm:h-[340px] lg:h-[400px] rounded-2xl overflow-hidden bg-white/70 border border-black/5 shadow-xs">
+                    <div className="w-full sm:col-span-5 lg:col-span-6 p-3 sm:p-6 lg:p-8 flex flex-col justify-center bg-bocadillo-antique/25 sm:border-r border-black/5 shrink-0">
+                        <div className="relative w-full h-44 sm:h-[340px] lg:h-[400px] rounded-2xl overflow-hidden bg-white/70 border border-black/5 shadow-xs">
                             <span className="absolute top-2.5 right-2.5 z-10 text-[10px] font-medium bg-black/40 text-white px-2 py-0.5 rounded-full backdrop-blur-sm">
                                 Imágenes referenciales
                             </span>
@@ -317,28 +340,37 @@ export default function ProductDetailModal({ product, onClose }) {
                         </div>
 
                         {/* Barra de acción inferior con Selector de Cantidad + WhatsApp */}
-                        <div className="p-3.5 sm:p-5 lg:p-6 border-t border-black/5 bg-paper/95 backdrop-blur-md space-y-2.5 sm:space-y-3 shrink-0">
+                        <div className="p-3.5 sm:p-5 lg:p-6 pb-[max(0.875rem,env(safe-area-inset-bottom))] border-t border-black/5 bg-paper/95 backdrop-blur-md space-y-2.5 sm:space-y-3 shrink-0">
                             {/* Fila: Selector de Cantidad + Total */}
                             <div className="flex items-center justify-between px-1">
-                                {/* Selector de cantidad interactivo */}
+                                {/* Selector de cantidad interactivo editable */}
                                 <div className="flex items-center gap-1.5 bg-bocadillo-antique/50 border border-bocadillo-copper/20 rounded-full p-0.5 sm:p-1">
                                     <button
                                         type="button"
                                         onClick={decreaseQuantity}
-                                        disabled={quantity <= 1}
+                                        disabled={currentQty <= 1}
                                         aria-label="Disminuir cantidad"
-                                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-bocadillo-walnut flex items-center justify-center hover:bg-bocadillo-antique active:scale-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xs"
+                                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-bocadillo-walnut flex items-center justify-center hover:bg-bocadillo-antique active:scale-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xs shrink-0"
                                     >
                                         <FiMinus className="text-xs sm:text-sm" />
                                     </button>
-                                    <span className="w-7 sm:w-8 text-center font-serif font-black text-sm sm:text-base text-bocadillo-walnut select-none">
-                                        {quantity}
-                                    </span>
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        max="999"
+                                        inputMode="numeric"
+                                        pattern="[0-9]*"
+                                        value={quantity}
+                                        onChange={handleQuantityChange}
+                                        onBlur={handleQuantityBlur}
+                                        aria-label="Cantidad a pedir"
+                                        className="w-10 sm:w-12 text-center font-serif font-black text-sm sm:text-base text-bocadillo-walnut bg-transparent focus:outline-none focus:bg-white/80 rounded transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    />
                                     <button
                                         type="button"
                                         onClick={increaseQuantity}
                                         aria-label="Aumentar cantidad"
-                                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-bocadillo-walnut flex items-center justify-center hover:bg-bocadillo-antique active:scale-90 transition-all shadow-xs"
+                                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-bocadillo-walnut flex items-center justify-center hover:bg-bocadillo-antique active:scale-90 transition-all shadow-xs shrink-0"
                                     >
                                         <FiPlus className="text-xs sm:text-sm" />
                                     </button>
@@ -347,7 +379,7 @@ export default function ProductDetailModal({ product, onClose }) {
                                 {/* Precio Total Dinámico */}
                                 <div className="text-right">
                                     <span className="text-[10px] sm:text-xs uppercase font-bold text-bocadillo-copper block leading-none mb-0.5">
-                                        Total ({quantity} {quantity === 1 ? "combo" : "combos"})
+                                        Total ({currentQty} {unitText})
                                     </span>
                                     <span className="font-serif text-2xl sm:text-3xl font-black text-bocadillo-walnut tracking-tight leading-tight">
                                         S/ {totalPrice}

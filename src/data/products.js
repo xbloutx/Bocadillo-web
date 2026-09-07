@@ -54,6 +54,7 @@ export const products = [
         ],
         description: "Nuestra combinación favorita, preparada al momento con el toque de casa.",
     },
+
     {
         id: 4,
         name: "Sandwich de pollo + Alfajorcito de Manjar blanco + Refresco de Maracuyá 300ml",
@@ -76,9 +77,71 @@ export const products = [
         ],
         description: "Nuestra combinación favorita, preparada al momento con el toque de casa.",
     },
-
+    
     {
     id: 5,
+    name: "Sandwich de pollo + 2 Mini donas con chocolate + Refresco de Maracuyá 300ml",
+    shortName: "Sandwich de pollo + 1 Mini pye + 2 Mini donas + Refresco",
+    presentation: "Cajas de cartón",
+    price: 11.50,
+    category: "boxes",
+    image: "/images/box/box5.webp",
+    images: [
+        "/images/box/box5.webp",
+        "/images/fondo/chocodonas.webp",
+        "/images/fondo/petitepanes.webp"
+    ],
+    items: [
+        "1 Sandwich de pollo casero con lechuga fresca",
+        "1 Mini pye",
+        "2 Mini donas horneadas cubiertas de chocolate y toppings",
+        "1 Refresco de Maracuyá fresco 300ml"
+    ],
+    description: "El balance perfecto para la tarde: el sabor casero de nuestro sandwich de pollo acompañado de 4 mini donitas achocolatadas recién decoradas y maracuyá natural."
+    },
+    
+    {
+    id: 6,
+    name: "4 Muffinss dulces surtidas + Refresco de Maracuyá 300ml",
+    shortName: "4 Muffins dulces + Refresco",
+    presentation: "Cajas de cartón",
+    price: 12.00,
+    category: "boxes",
+    image: "/images/box/box6.webp",
+    images: [
+        "/images/box/box6.webp",
+        "/images/fondo/minipay.webp",
+        "/images/fondo/tartaletas2.webp"
+    ],
+    items: [
+        "4 Muffinss dulces surtidas",
+        "1 Refresco de Maracuyá fresco 300ml"
+    ],
+    description: "Para los amantes del dulce de horno: un cuarteto de tartalitas crocantes preparadas con masa quebrada de mantequilla y rellenos de casa, refrescadas con maracuyá natural."
+    },
+    
+    {
+    id: 7,
+    name: "2 Petipanes con pollo + Pocillo de fruta fresca + Refresco de Maracuyá 300ml",
+    shortName: "2 Petipanes con pollo + Fruta + Refresco",
+    presentation: "Cajas de cartón",
+    price: 10.50,
+    category: "boxes",
+    image: "/images/box/box7.webp",
+    images: [
+        "/images/box/box7.webp",
+        "/images/fondo/petitepanes.webp"
+    ],
+    items: [
+        "2 Petipanes suaves rellenos de pollo a la crema casera",
+        "1 Pocillo individual de fruta fresca picada de estación",
+        "1 Refresco de Maracuyá fresco 300ml"
+    ],
+    description: "Una alternativa ligera, fresca y súper completa para el lonche o refrigerio: dos petipanes tiernos con pollo casero, fruta de estación picada al momento y jugo natural."
+    },
+
+    {
+    id: 8,
     name: "Alfajorcitos Artesanales de Manjar blanco",
     shortName: "Alfajorcitos de Manjar blanco",
     price: 1.50, 
@@ -96,7 +159,7 @@ export const products = [
     },
     
     {
-    id: 6,
+    id: 9,
     name: "Mini Donas de Chocolate con Toppings",
     shortName: "Mini Donas",
     price: 1.50, 
@@ -112,7 +175,7 @@ export const products = [
     },
 
     {
-    id: 7,
+    id: 10,
     name: "Mini Donas Glaseadas Colores Pastel",
     shortName: "Mini Donas Glaseadas",
     price: 1.50, 
@@ -129,7 +192,7 @@ export const products = [
     },   
 
     {
-    id: 8,
+    id: 11,
     name: "Mini Cupcakes con Chantilly y Grajeas",
     shortName: "Mini Cupcakes",
     price: 1.50, 
@@ -146,7 +209,7 @@ export const products = [
     },
 
     {
-    id: 9,
+    id: 12,
     name: "Muffins Artesanales de Chispas de Chocolate",
     shortName: "Muffins Artesanales",
     price: 1.50, 
@@ -163,7 +226,7 @@ export const products = [
     },
 
     {
-    id: 10,
+    id: 13,
     name: "Mini Pyes de Manzana Acaramelada",
     shortName: "Mini Pyes",
     price: 1.50, 
@@ -180,7 +243,7 @@ export const products = [
     },
 
     {
-    id: 11,
+    id: 14,
     name: "Mini Tartaletas de Frutas y Crema Pastelera",
     shortName: "Mini Pyes",
     price: 1.50, 
@@ -197,7 +260,7 @@ export const products = [
     },
 
     {
-    id: 12,
+    id: 15,
     name: "Mini Causitas Limeñas Tradicionales",
     shortName: "Mini Causitas",
     price: 1.50, 
@@ -214,7 +277,7 @@ export const products = [
     },
 
     {
-    id: 13,
+    id: 16,
     name: "Porciones de Pastel de Acelga Artesanal",
     shortName: "Pastel de Acelga",
     price: 1.50, 
@@ -231,7 +294,7 @@ export const products = [
     },
 
     {
-    id: 14,
+    id: 17,
     name: "Petipanes con Pollo a la Crema",
     shortName: "Petipanes con Pollo",
     price: 1.50, 
@@ -248,7 +311,7 @@ export const products = [
     },
 
     {
-    id: 15,
+    id: 18,
     name: "Porciones de Pastel de Acelga Artesanal",
     shortName: "Pastel de Acelga",
     price: 1.50, 

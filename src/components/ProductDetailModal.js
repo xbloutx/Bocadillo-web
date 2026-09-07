@@ -362,9 +362,11 @@ export default function ProductDetailModal({ product, onClose }) {
                                         pattern="[0-9]*"
                                         value={quantity}
                                         onChange={handleQuantityChange}
+                                        onFocus={(e) => e.target.select()}
+                                        onClick={(e) => e.target.select()}
                                         onBlur={handleQuantityBlur}
                                         aria-label="Cantidad a pedir"
-                                        className="w-10 sm:w-12 text-center font-serif font-black text-sm sm:text-base text-bocadillo-walnut bg-transparent focus:outline-none focus:bg-white/80 rounded transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        className="w-11 sm:w-12 text-center font-serif font-black text-base text-bocadillo-walnut bg-transparent focus:outline-none focus:bg-white/80 rounded transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                     />
                                     <button
                                         type="button"

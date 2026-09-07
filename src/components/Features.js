@@ -22,7 +22,7 @@ export default function Features() {
 
     return (
         <section className="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 -mt-10 sm:-mt-14 lg:-mt-16 mb-8 sm:mb-12">
-            <div className="bg-white/75 backdrop-blur-xl saturate-[180%] rounded-2xl sm:rounded-3xl shadow-xl shadow-bocadillo-walnut/5 border border-white/60 py-3.5 px-4 sm:py-6 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-6">
+            <div className="bg-white/80 backdrop-blur-xl saturate-[180%] rounded-2xl sm:rounded-3xl shadow-xl shadow-bocadillo-walnut/5 border border-white/60 py-3.5 px-4 sm:py-6 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-6">
                 {items.map((item, index) => {
                     const IconComponent = item.icon;
                     return (
@@ -43,4 +43,4 @@ export default function Features() {
         </section>
     );
 }
-
+

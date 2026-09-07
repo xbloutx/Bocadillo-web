@@ -48,7 +48,7 @@ export default function ContactoPage() {
             <div className="max-w-3xl mx-auto px-4 sm:px-8 -mt-6 sm:-mt-8 relative z-10 pb-3 sm:pb-8">
                 
                 {/* Versión Móvil: Apple Inset Grouped List unificada */}
-                <div className="flex sm:hidden flex-col bg-paper rounded-2xl border border-black/[0.05] shadow-[0_4px_20px_rgba(0,0,0,0.03)] divide-y divide-black/[0.04] overflow-hidden">
+                <div className="flex sm:hidden flex-col bg-paper/80 rounded-2xl border border-black/[0.05] shadow-[0_4px_20px_rgba(0,0,0,0.03)] divide-y divide-black/[0.04] overflow-hidden">
                     {CONTACTS.map((contact) => {
                         const Icon = contact.icon;
                         return (

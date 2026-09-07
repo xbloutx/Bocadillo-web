@@ -33,7 +33,7 @@ export default function NosotrosPage() {
 
             {/* Tarjeta de Historia / Manifiesto */}
             <div className="max-w-3xl mx-auto px-4 sm:px-8 -mt-6 sm:-mt-8 relative z-10">
-                <div className="bg-paper rounded-2xl sm:rounded-3xl border border-black/[0.05] shadow-[0_4px_20px_rgba(0,0,0,0.03)] sm:shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-4 sm:p-12 text-center overflow-hidden">
+                <div className="bg-paper/80 rounded-2xl sm:rounded-3xl border border-black/[0.05] shadow-[0_4px_20px_rgba(0,0,0,0.03)] sm:shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-4 sm:p-12 text-center overflow-hidden">
                     
                     {/* Foto artesanal ilustrativa en móvil */}
                     <div className="relative w-full h-32 sm:hidden rounded-xl overflow-hidden mb-3.5 border border-black/5">

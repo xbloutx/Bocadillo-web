@@ -62,7 +62,6 @@ button:focus-visible {
   .backdrop-blur-md,
   .backdrop-blur-xl {
     backdrop-filter: none !important;
-    background-color: var(--background) !important;
   }
 }
 

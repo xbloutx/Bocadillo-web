@@ -57,7 +57,7 @@ export default function PedidosPage() {
                 1. TIMELINE DE PASOS
             ======================================================== */}
             <div className="max-w-3xl mx-auto px-4 sm:px-8 -mt-6 sm:-mt-8 relative z-10 pb-5 sm:pb-12">
-                <ol className="bg-paper rounded-2xl sm:rounded-3xl border border-black/[0.05] shadow-[0_4px_20px_rgba(0,0,0,0.03)] sm:shadow-[0_8px_30px_rgb(0,0,0,0.04)] divide-y divide-black/[0.04] overflow-hidden">
+                <ol className="bg-paper/80 rounded-2xl sm:rounded-3xl border border-black/[0.05] shadow-[0_4px_20px_rgba(0,0,0,0.03)] sm:shadow-[0_8px_30px_rgb(0,0,0,0.04)] divide-y divide-black/[0.04] overflow-hidden">
                     {STEPS.map((step, index) => (
                         <li key={step.title} className="flex items-start gap-3 sm:gap-5 px-4 py-3.5 sm:px-10 sm:py-7">
                             <span className="shrink-0 w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-bocadillo-antique text-bocadillo-walnut font-serif font-black flex items-center justify-center text-xs sm:text-sm border border-bocadillo-copper/20 shadow-xs">
@@ -80,7 +80,7 @@ export default function PedidosPage() {
                 2. FORMAS DE PAGO ACEPTADAS (Apple Inset Card en móvil)
             ======================================================== */}
             <div className="max-w-3xl mx-auto px-4 sm:px-8 pb-5 sm:pb-12">
-                <div className="bg-white/75 backdrop-blur-md rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-black/[0.04] shadow-xs text-center">
+                <div className="bg-paper/80 backdrop-blur-md rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-black/[0.04] shadow-xs text-center">
                     <h2 className="font-serif text-xs sm:text-xl font-bold text-bocadillo-walnut mb-3 sm:mb-5">
                         Formas de pago aceptadas
                     </h2>

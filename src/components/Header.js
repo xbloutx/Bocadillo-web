@@ -45,7 +45,7 @@ export default function Header() {
     return (
         <>
             <header className="sticky top-0 z-40 w-full flex justify-center px-3 py-2 sm:px-6 sm:py-3 transition-all duration-200">
-                <div className="w-full max-w-6xl flex items-center justify-between px-3 sm:px-6 py-1.5 sm:py-2.5 bg-white/80 backdrop-blur-xl saturate-[180%] border border-white/60 shadow-[0_4px_24px_rgba(71,33,13,0.06)] rounded-full">
+                <div className="w-full max-w-6xl flex items-center justify-between px-3 sm:px-6 py-1.5 sm:py-2.5 bg-white/80  backdrop-blur-xl saturate-[180%] border border-white/60 shadow-[0_4px_24px_rgba(71,33,13,0.06)] rounded-full">
                     
                     {/* Botón Móvil: Menú / Categorías (44px touch target) */}
                     <div className="flex items-center md:hidden">
@@ -117,15 +117,20 @@ export default function Header() {
             {/* Menú Móvil Desplegable (Apple Style Sheet) */}
             <AnimatePresence>
                 {isMenuOpen && (
-                    <div className="fixed inset-0 z-50 md:hidden flex flex-col justify-start px-3 pt-3">
-                        {/* Backdrop oscurecido con blur */}
+                    <div 
+                        onClick={(e) => {
+                            if (e.target === e.currentTarget) setIsMenuOpen(false);
+                        }}
+                        className="fixed inset-0 z-50 md:hidden flex flex-col justify-start px-3 pt-3"
+                    >
+                        {/* Backdrop transparente para cerrar al tocar fuera */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.2 }}
                             onClick={() => setIsMenuOpen(false)}
-                            className="fixed inset-0 bg-black/40 backdrop-blur-sm"
+                            className="fixed inset-0 bg-transparent"
                         />
 
                         {/* Tarjeta Flotante del Menú */}

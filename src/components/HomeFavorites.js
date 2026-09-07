@@ -8,11 +8,16 @@ import { FiEye } from "react-icons/fi";
 import { products } from "@/data/products";
 import ProductDetailModal from "@/components/ProductDetailModal";
 
+// 👇 LISTA DE FAVORITOS: Cambia o reordena los IDs de los combos que quieres mostrar en portada
+const FAVORITE_PRODUCT_IDS = [1, 2, 3, 4, 8, 9, 10, 11, 13, 19, 21, 22];
+
 export default function HomeFavorites() {
     const [selectedProduct, setSelectedProduct] = useState(null);
 
-    // Seleccionamos los primeros 4 combos principales como favoritos de casa
-    const favoriteProducts = products.slice(0, 4);
+    // Obtenemos los combos seleccionados por su ID respetando el orden de la lista
+    const favoriteProducts = FAVORITE_PRODUCT_IDS
+        .map((id) => products.find((p) => p.id === id))
+        .filter(Boolean);
 
     return (
         <section className="relative pt-1 pb-10 sm:pt-4 sm:pb-20 bg-gradient-to-b from-transparent via-bocadillo-antique/20 to-transparent">

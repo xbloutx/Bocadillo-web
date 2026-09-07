@@ -23,6 +23,9 @@ Entrega del pedido en el domicilio del cliente. La dirección y el costo se coor
 **Punto de recojo**:
 Lugar acordado donde el cliente recoge su pedido en persona, como alternativa al delivery. No hay una dirección fija de tienda: se define caso por caso por WhatsApp.
 
+**Flujo de Pedido por WhatsApp**:
+Desde el modal interactivo de detalle, el cliente configura la cantidad en el Paso 1 y completa sus datos de entrega en el Paso 2 (Nombre, Apellido, Fecha, Hora, Dirección con Distrito y Referencia). Al pulsar enviar, se abre WhatsApp con un mensaje 100% estructurado y pre-llenado para que el cliente solo tenga que presionar enviar.
+
 ## Paleta de Colores Oficial
 * **White (`#FFFFFF`):** Fondos de tarjetas y superficies limpias de contraste.
 * **Antique White (`#F6E9D9`):** Fondo cálido de la marca (Hero, headers, acentos de fondo).

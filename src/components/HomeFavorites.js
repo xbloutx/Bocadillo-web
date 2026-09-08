@@ -45,7 +45,7 @@ export default function HomeFavorites() {
 
                 {/* Cuadrícula visual limpia con alineación superior independiente (items-start) */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 items-start">
-                    {favoriteProducts.map((product) => (
+                    {favoriteProducts.map((product, idx) => (
                         <div
                             key={product.id}
                             role="button"
@@ -68,28 +68,29 @@ export default function HomeFavorites() {
                                     fill
                                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                                     className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                                    loading="eager"
+                                    priority={idx < 4}
                                 />
-                                
                             </div>
 
-                            {/* Título corto y precio limpio */}
-                            <div className="flex flex-col items-center justify-between px-0.5">
-                                <h3 className="font-serif text-xs sm:text-sm md:text-base font-bold text-bocadillo-walnut group-hover:text-bocadillo-bark transition-colors line-clamp-2 text-center leading-snug">
-                                    {product.shortName || product.name}
-                                </h3>
+                                {/* Título corto y precio limpio */}
+                                <div className="flex flex-col items-center justify-between px-0.5">
+                                    <h3 className="font-serif text-xs sm:text-sm md:text-base font-bold text-bocadillo-walnut group-hover:text-bocadillo-bark transition-colors line-clamp-2 text-center leading-snug">
+                                        {product.shortName || product.name}
+                                    </h3>
 
-                                <p className="font-serif text-xs sm:text-base font-black text-bocadillo-copper mt-1">
-                                    S/ {product.price.toFixed(2)}
-                                </p>
+                                    <p className="font-serif text-xs sm:text-base font-black text-bocadillo-copper mt-1">
+                                        S/ {product.price.toFixed(2)}
+                                    </p>
 
-                                {/* Botón píldora: solo en desktop con hover desplegable; en móvil limpio estilo Dolce Capriccio */}
-                                <div className="hidden sm:block w-full overflow-hidden transition-all duration-300 ease-out max-h-0 opacity-0 group-hover:max-h-12 group-hover:opacity-100 group-hover:mt-2.5">
-                                    <span className="inline-flex items-center justify-center w-full py-2 sm:py-2.5 px-4 rounded-full text-xs font-serif font-bold tracking-wider text-[#F6E9D9] bg-bocadillo-walnut group-hover:bg-bocadillo-bark active:scale-[0.97] transition-all duration-150 shadow-md shadow-bocadillo-walnut/15">
-                                        VER DETALLE
-                                    </span>
+                                    {/* Botón píldora: solo en desktop con hover desplegable; en móvil limpio estilo Dolce Capriccio */}
+                                    <div className="hidden sm:block w-full overflow-hidden transition-all duration-300 ease-out max-h-0 opacity-0 group-hover:max-h-12 group-hover:opacity-100 group-hover:mt-2.5">
+                                        <span className="inline-flex items-center justify-center w-full py-2 sm:py-2.5 px-4 rounded-full text-xs font-serif font-bold tracking-wider text-[#F6E9D9] bg-bocadillo-walnut group-hover:bg-bocadillo-bark active:scale-[0.97] transition-all duration-150 shadow-md shadow-bocadillo-walnut/15">
+                                            VER DETALLE
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                     ))}
                 </div>
             </div>

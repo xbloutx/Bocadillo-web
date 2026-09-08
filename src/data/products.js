@@ -146,7 +146,7 @@ export const products = [
     shortName: "Bowl de Causa Limeña + Refresco",
     presentation: "Bolsa de papel",
     price: 11.00, 
-    category: "salados",
+    category: "boxes",
     image: "/images/box/bolsa1.webp",
     images: [
         "/images/box/bolsa1.webp",
@@ -167,7 +167,7 @@ export const products = [
     shortName: "Sandwich al hilo + Cupcake + Refresco",
     presentation: "Bolsa de papel",
     price: 12.00,
-    category: "sandwiches",
+    category: "boxes",
     image: "/images/box/bolsa2.webp",
     images: [
         "/images/box/bolsa2.webp",
@@ -188,7 +188,7 @@ export const products = [
     shortName: "Tajada de Keke Marmoleado + Refresco",
     presentation: "Bolsa de papel",
     price: 7.50,
-    category: "dulces",
+    category: "boxes",
     image: "/images/box/bolsa3.webp",
     images: [
         "/images/box/bolsa3.webp"
@@ -207,7 +207,7 @@ export const products = [
     shortName: "Triple Jamón y Queso + Muffin + Refresco",
     presentation: "Bolsa de papel",
     price: 11.50,
-    category: "sandwiches",
+    category: "boxes",
     image: "/images/box/bolsa4.webp",
     images: [
         "/images/box/bolsa4.webp",
@@ -229,7 +229,7 @@ export const products = [
     shortName: "Sandwich al hilo + Alfajorcitos + Refresco",
     presentation: "Bolsa de papel",
     price: 11.50,
-    category: "sandwiches",
+    category: "boxes",
     image: "/images/box/bolsa5.webp",
     images: [
         "/images/box/bolsa5.webp",

@@ -273,17 +273,17 @@ export default function ProductDetailModal({ product, onClose }) {
                         type="button"
                         onClick={prevImage}
                         aria-label="Foto anterior"
-                        className="absolute left-2.5 top-1/2 -translate-y-1/2 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/85 backdrop-blur-sm shadow flex items-center justify-center text-bocadillo-walnut hover:bg-white active:scale-90 transition-transform duration-75 cursor-pointer"
+                        className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/90 backdrop-blur-sm shadow-md flex items-center justify-center text-bocadillo-walnut hover:bg-white active:scale-90 transition-transform duration-75 cursor-pointer z-10"
                     >
-                        <FaChevronLeft className="text-[10px] sm:text-xs" />
+                        <FaChevronLeft className="text-xs sm:text-sm" />
                     </button>
                     <button
                         type="button"
                         onClick={nextImage}
                         aria-label="Siguiente foto"
-                        className="absolute right-2.5 top-1/2 -translate-y-1/2 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/85 backdrop-blur-sm shadow flex items-center justify-center text-bocadillo-walnut hover:bg-white active:scale-90 transition-transform duration-75 cursor-pointer"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/90 backdrop-blur-sm shadow-md flex items-center justify-center text-bocadillo-walnut hover:bg-white active:scale-90 transition-transform duration-75 cursor-pointer z-10"
                     >
-                        <FaChevronRight className="text-[10px] sm:text-xs" />
+                        <FaChevronRight className="text-xs sm:text-sm" />
                     </button>
                 </>
             )}
@@ -367,7 +367,7 @@ export default function ProductDetailModal({ product, onClose }) {
                         animate(y, 0, { type: "spring", damping: 28, stiffness: 320 });
                     }
                 }}
-                className="relative w-full sm:max-w-4xl lg:max-w-5xl bg-paper rounded-t-[32px] sm:rounded-[32px] shadow-2xl overflow-hidden z-10 h-[88dvh] max-h-[88dvh] sm:h-[580px] lg:h-[600px] sm:max-h-[88vh] flex flex-col border-t sm:border border-white/60 sm:border-black/[0.08]"
+                className="relative w-full sm:max-w-3xl lg:max-w-[940px] bg-paper rounded-t-[32px] sm:rounded-[32px] shadow-2xl overflow-hidden z-10 h-[88dvh] max-h-[88dvh] sm:h-auto sm:max-h-[88vh] flex flex-col border-t sm:border border-white/60 sm:border-black/[0.08]"
             >
                 {/* Contenedor principal de contenido */}
                 <div className="flex flex-col w-full h-full flex-1 min-h-0">
@@ -388,45 +388,32 @@ export default function ProductDetailModal({ product, onClose }) {
                     {/* Barra superior estilo Apple (solo en móvil) */}
                     <div className="flex items-center justify-between px-4 pt-0.5 pb-2.5 border-b border-black/5 bg-paper/85 backdrop-blur-md sticky top-0 z-20 h-11">
                         <AnimatePresence mode="wait" custom={direction} initial={false}>
-                            {step === "checkout" ? (
-                                <motion.button
-                                    key="mob-back"
-                                    type="button"
-                                    onClick={goToDetail}
-                                    initial={{ opacity: 0, x: -8 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: -8 }}
-                                    transition={{ duration: 0.15 }}
-                                    aria-label="Volver al detalle"
-                                    className="flex items-center gap-1 text-xs font-serif font-bold text-bocadillo-copper hover:text-bocadillo-walnut active:scale-90 transition-transform pointer-events-auto cursor-pointer"
-                                >
-                                    <FaChevronLeft className="text-[10px]" />
-                                    <span>Volver</span>
-                                </motion.button>
-                            ) : (
-                                <motion.button
-                                    key="mob-close"
-                                    type="button"
-                                    onClick={onClose}
-                                    initial={{ opacity: 0, scale: 0.85 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.85 }}
-                                    transition={{ duration: 0.15 }}
-                                    aria-label="Cerrar detalle"
-                                    className="w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 flex items-center justify-center text-bocadillo-walnut active:scale-90 transition-transform pointer-events-auto cursor-pointer"
-                                >
-                                    <FaChevronLeft className="text-xs" />
-                                </motion.button>
-                            )}
+                            <motion.button
+                                key={step === "checkout" ? "btn-back" : "btn-empty"}
+                                type="button"
+                                onClick={step === "checkout" ? goToDetail : undefined}
+                                disabled={step !== "checkout"}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.8 }}
+                                transition={{ duration: 0.15 }}
+                                className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+                                    step === "checkout" 
+                                        ? "bg-black/5 active:scale-90 text-bocadillo-walnut cursor-pointer pointer-events-auto" 
+                                        : "opacity-0 pointer-events-none"
+                                }`}
+                                aria-label="Volver a la información del combo"
+                            >
+                                <FaChevronLeft className="text-xs" />
+                            </motion.button>
                         </AnimatePresence>
 
                         <AnimatePresence mode="wait" custom={direction} initial={false}>
                             <motion.h2
-                                key={`mob-title-${step}`}
-                                id="modal-title-mobile"
-                                initial={{ opacity: 0, y: 5 }}
+                                key={`sheet-title-${step}`}
+                                initial={{ opacity: 0, y: direction > 0 ? 8 : -8 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -5 }}
+                                exit={{ opacity: 0, y: direction > 0 ? -8 : 8 }}
                                 transition={{ duration: 0.18 }}
                                 className="font-serif font-black text-xs uppercase tracking-widest text-bocadillo-walnut text-center pointer-events-none"
                             >
@@ -445,25 +432,25 @@ export default function ProductDetailModal({ product, onClose }) {
                     </div>
                 </div>
 
-                {/* Estructura: 1 columna en móvil / 2 columnas divididas en PC */}
+                {/* Estructura: 1 columna en móvil / 2 columnas divididas al 50-50 en PC para máxima apreciación fotográfica */}
                 <div className="flex flex-col sm:grid sm:grid-cols-12 flex-1 overflow-hidden min-h-0">
-                    {/* COLUMNA IZQUIERDA: Foto + Título + Presentación (Ficha de identidad visual completa y equilibrada) */}
-                    <div className="hidden sm:flex sm:col-span-5 lg:col-span-6 p-6 lg:p-7 flex-col justify-center bg-bocadillo-antique/25 sm:border-r border-black/5 shrink-0 space-y-3">
-                        {renderCarousel("sm:h-[260px] lg:h-[280px]")}
+                    {/* COLUMNA IZQUIERDA: Foto más grande + Título + Presentación (Ficha de identidad visual completa) */}
+                    <div className="hidden sm:flex sm:col-span-6 p-6 lg:p-7 flex-col justify-center bg-bocadillo-antique/25 sm:border-r border-black/5 shrink-0 space-y-3.5">
+                        {renderCarousel("sm:h-[270px] lg:h-[295px]")}
 
-                        <div className="space-y-1.5 pt-1">
-                            <h3 className="font-serif font-bold text-sm sm:text-base lg:text-lg text-bocadillo-walnut leading-snug">
+                        <div className="space-y-1.5 pt-0.5">
+                            <h3 className="font-serif font-bold text-base sm:text-lg lg:text-xl text-bocadillo-walnut leading-snug">
                                 {product.name}
                             </h3>
 
                             <div className="inline-block px-2.5 py-0.5 bg-white/80 rounded-full border border-bocadillo-copper/20 shadow-2xs">
-                                <span className="font-serif text-[11px] sm:text-xs font-semibold text-bocadillo-copper tracking-wide">
+                                <span className="font-serif text-xs font-semibold text-bocadillo-copper tracking-wide">
                                     Presentación: {product.presentation}
                                 </span>
                             </div>
 
                             {product.description && (
-                                <p className="text-xs text-bocadillo-walnut/75 leading-relaxed line-clamp-2 pt-0.5">
+                                <p className="text-xs sm:text-sm text-bocadillo-walnut/75 leading-relaxed line-clamp-2 pt-0.5">
                                     {product.description}
                                 </p>
                             )}
@@ -471,9 +458,9 @@ export default function ProductDetailModal({ product, onClose }) {
                     </div>
 
                     {/* COLUMNA DERECHA: Cabecera Desktop + Contenido Animado (Paso 1: Detalle | Paso 2: Formulario de Entrega) */}
-                    <div className="w-full sm:col-span-7 lg:col-span-6 flex flex-col flex-1 overflow-hidden min-h-0 relative">
+                    <div className="w-full sm:col-span-6 flex flex-col flex-1 overflow-hidden min-h-0 relative">
                         {/* Cabecera Desktop (solo en PC) */}
-                        <div className="hidden sm:flex items-center justify-between px-6 lg:px-8 pt-5 pb-3.5 border-b border-black/5 bg-paper/90 backdrop-blur-md relative h-14 shrink-0">
+                        <div className="hidden sm:flex items-center justify-between px-6 lg:px-7 pt-4 pb-3 border-b border-black/5 bg-paper/90 backdrop-blur-md relative h-13 sm:h-14 shrink-0">
                             <AnimatePresence mode="wait" custom={direction} initial={false}>
                                 {step === "detail" ? (
                                     <motion.div
@@ -548,7 +535,7 @@ export default function ProductDetailModal({ product, onClose }) {
 
                                         {/* PASO 1: Información detallada del combo */}
                                         <div
-                                            className="overflow-y-auto overscroll-contain px-5 sm:px-6 lg:px-8 py-3.5 sm:py-5 flex-1 min-h-0 space-y-4"
+                                            className="overflow-y-auto overscroll-contain px-5 sm:px-6 lg:px-7 py-3.5 sm:py-4.5 flex-1 min-h-0 space-y-3.5"
                                         >
                                             {/* Título y presentación (solo visible en móvil; en desktop se luce en la columna izquierda) */}
                                             <div className="sm:hidden">
@@ -571,13 +558,13 @@ export default function ProductDetailModal({ product, onClose }) {
 
                                             {/* Desglose de lo que incluye el Combo */}
                                             {product.items && product.items.length > 0 && (
-                                                <div className="bg-bocadillo-antique/30 rounded-xl sm:rounded-2xl p-3.5 sm:p-4 border border-black/5">
-                                                    <h4 className="font-serif text-[11px] sm:text-xs font-black uppercase tracking-wider text-bocadillo-walnut mb-2">
+                                                <div className="bg-bocadillo-antique/30 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-black/5 sm:my-auto">
+                                                    <h4 className="font-serif text-[11px] sm:text-xs font-black uppercase tracking-wider text-bocadillo-walnut mb-2.5">
                                                         Este combo incluye:
                                                     </h4>
-                                                    <ul className="space-y-1.5">
+                                                    <ul className="space-y-2">
                                                         {product.items.map((item, idx) => (
-                                                            <li key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-foreground/90 font-medium">
+                                                            <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-foreground/90 font-medium">
                                                                 <span className="w-4 h-4 rounded-full bg-bocadillo-copper/20 text-bocadillo-copper flex items-center justify-center flex-shrink-0 mt-0.5">
                                                                     <FiCheck className="text-[10px]" />
                                                                 </span>
@@ -590,7 +577,7 @@ export default function ProductDetailModal({ product, onClose }) {
                                         </div>
 
                                         {/* Barra de acción Paso 1: Cantidad + Total + Continuar */}
-                                        <div className="p-3.5 sm:p-5 lg:p-6 pb-[max(1rem,env(safe-area-inset-bottom))] border-t border-black/5 bg-paper/95 backdrop-blur-md space-y-2.5 sm:space-y-3 shrink-0">
+                                        <div className="p-3.5 sm:p-4 sm:px-6 lg:px-7 pb-[max(0.875rem,env(safe-area-inset-bottom))] border-t border-black/5 bg-paper/95 backdrop-blur-md space-y-2 sm:space-y-2.5 shrink-0">
                                             <div className="flex items-center justify-between px-1">
                                                 {/* Selector de cantidad interactivo editable */}
                                                 <div className="flex items-center gap-1.5 bg-bocadillo-antique/50 border border-bocadillo-copper/20 rounded-full p-0.5 sm:p-1">
@@ -642,7 +629,7 @@ export default function ProductDetailModal({ product, onClose }) {
                                             <button
                                                 type="button"
                                                 onClick={goToCheckout}
-                                                className="group w-full flex items-center justify-center gap-2 bg-bocadillo-walnut hover:bg-bocadillo-bark text-[#F6E9D9] py-3 sm:py-3.5 px-5 sm:px-6 rounded-full font-serif font-bold text-xs sm:text-sm tracking-wider uppercase shadow-md shadow-bocadillo-walnut/20 active:scale-[0.98] transition-all duration-75 cursor-pointer"
+                                                className="group w-full flex items-center justify-center gap-2 bg-bocadillo-walnut hover:bg-bocadillo-bark text-[#F6E9D9] py-2.5 sm:py-3.5 px-5 sm:px-6 rounded-full font-serif font-bold text-xs sm:text-sm tracking-wider uppercase shadow-md shadow-bocadillo-walnut/20 active:scale-[0.98] transition-all duration-75 cursor-pointer"
                                             >
                                                 <span>CONTINUAR CON EL PEDIDO</span>
                                                 <FaChevronRight className="text-xs group-hover:translate-x-0.5 transition-transform" />
@@ -669,7 +656,7 @@ export default function ProductDetailModal({ product, onClose }) {
                                         className="flex flex-col flex-1 overflow-hidden h-full min-h-0 w-full"
                                     >
                                         {/* PASO 2: Formulario de Datos de Entrega */}
-                                        <div className="overflow-y-auto overscroll-contain px-5 sm:px-6 lg:px-8 py-3.5 sm:py-5 flex-1 min-h-0 space-y-3.5">
+                                        <div className="overflow-y-auto overscroll-contain px-5 sm:px-6 lg:px-7 py-3.5 sm:py-4.5 flex-1 min-h-0 space-y-3.5">
                                             {/* Resumen del Pedido: Tarjeta enriquecida para apreciar claramente lo que compran */}
                                             <div className="p-3 sm:p-3.5 bg-bocadillo-antique/45 rounded-2xl border border-bocadillo-copper/25 shadow-2xs">
                                                 {/* En móvil: Vista enriquecida con foto generosa (80px), nombre completo y desglose */}
@@ -706,19 +693,19 @@ export default function ProductDetailModal({ product, onClose }) {
                                                 </div>
 
                                                 {/* En escritorio: Barra compacta limpia (la columna izquierda ya luce la foto grande) */}
-                                                <div className="hidden sm:flex sm:items-center sm:justify-between text-xs">
+                                                <div className="hidden sm:flex sm:items-center sm:justify-between text-xs sm:text-sm">
                                                     <span className="font-serif text-bocadillo-copper font-medium">
                                                         Cantidad seleccionada: <strong className="text-bocadillo-walnut font-bold">{currentQty} {unitText}</strong>
                                                     </span>
                                                     <span className="text-black/20">·</span>
                                                     <span className="font-serif text-bocadillo-copper font-medium">
-                                                        Total a pagar: <strong className="font-serif text-sm font-black text-bocadillo-walnut">S/ {totalPrice}</strong>
+                                                        Total a pagar: <strong className="font-serif text-sm sm:text-base font-black text-bocadillo-walnut">S/ {totalPrice}</strong>
                                                     </span>
                                                 </div>
                                             </div>
 
                                             {/* Campos del Formulario de Entrega */}
-                                            <form onSubmit={handleSendWhatsApp} className="space-y-3">
+                                            <form onSubmit={handleSendWhatsApp} className="space-y-3 sm:space-y-3.5">
                                                 {/* Nombre y Apellido */}
                                                 <div className="grid grid-cols-2 gap-2.5">
                                                     <div>
@@ -825,11 +812,11 @@ export default function ProductDetailModal({ product, onClose }) {
                                         </div>
 
                                         {/* Barra de acción Paso 2: Botón Final WhatsApp */}
-                                        <div className="p-3.5 sm:p-5 lg:p-6 pb-[max(1rem,env(safe-area-inset-bottom))] border-t border-black/5 bg-paper/95 backdrop-blur-md space-y-2.5 sm:space-y-3 shrink-0">
+                                        <div className="p-3.5 sm:p-4 sm:px-6 lg:px-7 pb-[max(0.875rem,env(safe-area-inset-bottom))] border-t border-black/5 bg-paper/95 backdrop-blur-md space-y-2 sm:space-y-2.5 shrink-0">
                                             <button
                                                 type="button"
                                                 onClick={handleSendWhatsApp}
-                                                className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white py-3 sm:py-3.5 px-5 sm:px-6 rounded-full font-serif font-bold text-sm tracking-wide shadow-md shadow-[#25D366]/25 active:scale-[0.98] transition-all duration-75 cursor-pointer"
+                                                className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white py-2.5 sm:py-3.5 px-5 sm:px-6 rounded-full font-serif font-bold text-xs sm:text-sm tracking-wide shadow-md shadow-[#25D366]/25 active:scale-[0.98] transition-all duration-75 cursor-pointer"
                                             >
                                                 <FaWhatsapp className="text-lg" />
                                                 <span>ENVIAR PEDIDO POR WHATSAPP</span>

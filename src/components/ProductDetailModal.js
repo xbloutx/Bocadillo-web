@@ -23,9 +23,28 @@ export default function ProductDetailModal({ product, onClose }) {
     const backdropOpacity = useTransform(y, [0, 300], [1, 0]);
     const dragControls = useDragControls();
 
-    const contentRef = useRef(null);
-    const touchStartY = useRef(0);
-    const isPullingDown = useRef(false);
+    // Gestos táctiles de deslizamiento horizontal para el carrusel en móvil
+    const touchCarouselStartX = useRef(0);
+    const touchCarouselEndX = useRef(0);
+
+    const handleCarouselTouchStart = (e) => {
+        touchCarouselStartX.current = e.touches[0].clientX;
+        touchCarouselEndX.current = e.touches[0].clientX;
+    };
+
+    const handleCarouselTouchMove = (e) => {
+        touchCarouselEndX.current = e.touches[0].clientX;
+    };
+
+    const handleCarouselTouchEnd = () => {
+        const diffX = touchCarouselStartX.current - touchCarouselEndX.current;
+        const minSwipeDistance = 40;
+        if (diffX > minSwipeDistance) {
+            nextImage();
+        } else if (diffX < -minSwipeDistance) {
+            prevImage();
+        }
+    };
 
     // Detección de dispositivo móvil
     useEffect(() => {
@@ -34,39 +53,6 @@ export default function ProductDetailModal({ product, onClose }) {
         window.addEventListener("resize", checkMobile);
         return () => window.removeEventListener("resize", checkMobile);
     }, []);
-
-    // Soporte táctil en el cuerpo deslizable para tirar hacia abajo cuando está arriba
-    const handleContentTouchStart = (e) => {
-        if (!isMobile) return;
-        touchStartY.current = e.touches[0].clientY;
-        isPullingDown.current = false;
-    };
-
-    const handleContentTouchMove = (e) => {
-        if (!isMobile || !contentRef.current) return;
-        const currentY = e.touches[0].clientY;
-        const diff = currentY - touchStartY.current;
-
-        // Si está en el tope del scroll y tira hacia abajo
-        if (contentRef.current.scrollTop <= 0 && diff > 0) {
-            isPullingDown.current = true;
-            y.set(diff * 0.65);
-        } else if (isPullingDown.current && diff <= 0) {
-            isPullingDown.current = false;
-            y.set(0);
-        }
-    };
-
-    const handleContentTouchEnd = () => {
-        if (!isMobile || !isPullingDown.current) return;
-        isPullingDown.current = false;
-        const currentY = y.get();
-        if (currentY > 90) {
-            onClose();
-        } else {
-            animate(y, 0, { type: "spring", damping: 28, stiffness: 320 });
-        }
-    };
 
     const images = product?.images && product.images.length > 0 
         ? product.images 
@@ -89,9 +75,9 @@ export default function ProductDetailModal({ product, onClose }) {
     const innerRef = useRef(null);
     const [modalHeight, setModalHeight] = useState(null);
 
-    // Ajuste dinámico de altura estilo Apple: se adapta y anima suavemente tanto en PC como en celular
+    // Ajuste dinámico de altura en PC: se adapta y anima suavemente al cambiar de paso
     useEffect(() => {
-        if (!innerRef.current) return;
+        if (!innerRef.current || isMobile) return;
 
         const updateHeight = () => {
             if (innerRef.current) {
@@ -108,34 +94,27 @@ export default function ProductDetailModal({ product, onClose }) {
 
         observer.observe(innerRef.current);
         return () => observer.disconnect();
-    }, [step]);
+    }, [step, isMobile]);
 
-    const [formData, setFormData] = useState({
-        firstName: "",
-        lastName: "",
-        deliveryDate: "",
-        deliveryTime: "",
-        addressDistrict: "",
-        reference: "",
+    // Inicializar datos del cliente (recupera de localStorage si existen previos)
+    const [formData, setFormData] = useState(() => {
+        let savedData = {};
+        if (typeof window !== "undefined") {
+            try {
+                const saved = localStorage.getItem("bocadillo_customer_details");
+                if (saved) savedData = JSON.parse(saved);
+            } catch (_) {}
+        }
+        return {
+            firstName: savedData.firstName || "",
+            lastName: savedData.lastName || "",
+            deliveryDate: "",
+            deliveryTime: "",
+            addressDistrict: savedData.addressDistrict || "",
+            reference: savedData.reference || "",
+        };
     });
     const [formErrors, setFormErrors] = useState({});
-
-    // Cargar datos previos guardados del cliente para evitar pérdidas accidentales si cierra el modal
-    useEffect(() => {
-        try {
-            const saved = localStorage.getItem("bocadillo_customer_details");
-            if (saved) {
-                const parsed = JSON.parse(saved);
-                setFormData((prev) => ({
-                    ...prev,
-                    firstName: parsed.firstName || "",
-                    lastName: parsed.lastName || "",
-                    addressDistrict: parsed.addressDistrict || "",
-                    reference: parsed.reference || "",
-                }));
-            }
-        } catch (_) {}
-    }, []);
 
     const handleInputChange = (field, value) => {
         setFormData((prev) => {
@@ -289,9 +268,14 @@ export default function ProductDetailModal({ product, onClose }) {
         }),
     };
 
-    // Componente reutilizable del carrusel de fotografías
+    // Componente reutilizable del carrusel de fotografías con soporte de swipe táctil
     const renderCarousel = (heightClass = "h-[340px] lg:h-[400px]") => (
-        <div className={`relative w-full ${heightClass} rounded-2xl overflow-hidden bg-white/70 border border-black/5 shadow-xs`}>
+        <div 
+            onTouchStart={images.length > 1 ? handleCarouselTouchStart : undefined}
+            onTouchMove={images.length > 1 ? handleCarouselTouchMove : undefined}
+            onTouchEnd={images.length > 1 ? handleCarouselTouchEnd : undefined}
+            className={`relative w-full ${heightClass} rounded-2xl overflow-hidden bg-white/70 border border-black/5 shadow-xs select-none touch-pan-y`}
+        >
             <span className="absolute top-2.5 right-2.5 z-10 text-[10px] font-medium bg-black/40 text-white px-2 py-0.5 rounded-full backdrop-blur-sm">
                 Imágenes referenciales
             </span>
@@ -380,7 +364,6 @@ export default function ProductDetailModal({ product, onClose }) {
                         ? { 
                             y: 0, 
                             opacity: 1,
-                            ...(modalHeight ? { height: modalHeight } : {})
                           } 
                         : { 
                             scale: 1, 
@@ -409,10 +392,10 @@ export default function ProductDetailModal({ product, onClose }) {
                         animate(y, 0, { type: "spring", damping: 28, stiffness: 320 });
                     }
                 }}
-                className="relative w-full sm:max-w-4xl lg:max-w-5xl bg-paper rounded-t-[32px] sm:rounded-[32px] shadow-2xl overflow-hidden z-10 max-h-[calc(100dvh-3.5rem)] sm:max-h-[90vh] flex flex-col border-t sm:border border-white/60 sm:border-black/[0.08]"
+                className="relative w-full sm:max-w-4xl lg:max-w-5xl bg-paper rounded-t-[32px] sm:rounded-[32px] shadow-2xl overflow-hidden z-10 h-[88dvh] max-h-[88dvh] sm:h-auto sm:max-h-[90vh] flex flex-col border-t sm:border border-white/60 sm:border-black/[0.08]"
             >
                 {/* Contenedor medidor para animar la altura dinámicamente según el contenido */}
-                <div ref={innerRef} className="flex flex-col w-full">
+                <div ref={innerRef} className="flex flex-col w-full h-full flex-1 min-h-0">
                     {/* Zona de Arrastre Superior (Grab Handle + Header táctil solo en móvil) */}
                     <div
                         onPointerDown={(e) => {
@@ -590,11 +573,7 @@ export default function ProductDetailModal({ product, onClose }) {
 
                                         {/* PASO 1: Información detallada del combo */}
                                         <div
-                                            ref={contentRef}
-                                            onTouchStart={handleContentTouchStart}
-                                            onTouchMove={handleContentTouchMove}
-                                            onTouchEnd={handleContentTouchEnd}
-                                            className="overflow-y-auto overscroll-contain px-5 sm:px-6 lg:px-8 py-3.5 sm:py-5 flex-1 space-y-4"
+                                            className="overflow-y-auto overscroll-contain px-5 sm:px-6 lg:px-8 py-3.5 sm:py-5 flex-1 min-h-0 space-y-4"
                                         >
                                             {/* Título y presentación (solo visible en móvil; en desktop se luce en la columna izquierda) */}
                                             <div className="sm:hidden">
@@ -636,7 +615,7 @@ export default function ProductDetailModal({ product, onClose }) {
                                         </div>
 
                                         {/* Barra de acción Paso 1: Cantidad + Total + Continuar */}
-                                        <div className="p-3.5 sm:p-5 lg:p-6 pb-[max(0.875rem,env(safe-area-inset-bottom))] border-t border-black/5 bg-paper/95 backdrop-blur-md space-y-2.5 sm:space-y-3 shrink-0">
+                                        <div className="p-3.5 sm:p-5 lg:p-6 pb-[max(1rem,env(safe-area-inset-bottom))] border-t border-black/5 bg-paper/95 backdrop-blur-md space-y-2.5 sm:space-y-3 shrink-0">
                                             <div className="flex items-center justify-between px-1">
                                                 {/* Selector de cantidad interactivo editable */}
                                                 <div className="flex items-center gap-1.5 bg-bocadillo-antique/50 border border-bocadillo-copper/20 rounded-full p-0.5 sm:p-1">
@@ -715,7 +694,7 @@ export default function ProductDetailModal({ product, onClose }) {
                                         className="flex flex-col flex-1 overflow-hidden h-full min-h-0 w-full"
                                     >
                                         {/* PASO 2: Formulario de Datos de Entrega */}
-                                        <div className="overflow-y-auto overscroll-contain px-5 sm:px-6 lg:px-8 py-3.5 sm:py-5 flex-1 space-y-3.5">
+                                        <div className="overflow-y-auto overscroll-contain px-5 sm:px-6 lg:px-8 py-3.5 sm:py-5 flex-1 min-h-0 space-y-3.5">
                                             {/* Resumen del Pedido: Tarjeta enriquecida para apreciar claramente lo que compran */}
                                             <div className="p-3 sm:p-3.5 bg-bocadillo-antique/45 rounded-2xl border border-bocadillo-copper/25 shadow-2xs">
                                                 {/* En móvil: Vista enriquecida con foto generosa (80px), nombre completo y desglose */}
@@ -802,7 +781,7 @@ export default function ProductDetailModal({ product, onClose }) {
                                                 </div>
 
                                                 {/* Fecha y Hora de entrega */}
-                                                <div className="grid grid-cols-2 gap-2.5">
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                                                     <div>
                                                         <label className="font-serif text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-bocadillo-bark block mb-1">
                                                             Fecha entrega <span className="text-red-500">*</span>
@@ -871,7 +850,7 @@ export default function ProductDetailModal({ product, onClose }) {
                                         </div>
 
                                         {/* Barra de acción Paso 2: Botón Final WhatsApp */}
-                                        <div className="p-3.5 sm:p-5 lg:p-6 pb-[max(0.875rem,env(safe-area-inset-bottom))] border-t border-black/5 bg-paper/95 backdrop-blur-md space-y-2.5 sm:space-y-3 shrink-0">
+                                        <div className="p-3.5 sm:p-5 lg:p-6 pb-[max(1rem,env(safe-area-inset-bottom))] border-t border-black/5 bg-paper/95 backdrop-blur-md space-y-2.5 sm:space-y-3 shrink-0">
                                             <button
                                                 type="button"
                                                 onClick={handleSendWhatsApp}

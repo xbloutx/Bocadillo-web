@@ -24,7 +24,7 @@ Entrega del pedido en el domicilio del cliente. La dirección y el costo se coor
 Lugar acordado donde el cliente recoge su pedido en persona, como alternativa al delivery. No hay una dirección fija de tienda: se define caso por caso por WhatsApp.
 
 **Flujo de Pedido por WhatsApp**:
-Desde el modal interactivo de detalle, el cliente configura la cantidad en el Paso 1 y completa sus datos de entrega en el Paso 2 (Nombre, Apellido, Fecha, Hora, Dirección con Distrito y Referencia). Al pulsar enviar, se abre WhatsApp con un mensaje 100% estructurado y pre-llenado para que el cliente solo tenga que presionar enviar.
+Desde el modal interactivo de detalle, el cliente configura la cantidad en el Paso 1 y completa sus datos de entrega en el Paso 2 (Nombre, Apellido, Fecha, Hora, Dirección con Distrito y Referencia). Al pulsar enviar, se abre WhatsApp con un mensaje 100% estructurado y pre-llenado para que el cliente solo tenga que presionar enviar. En dispositivos móviles, la interfaz opera como un Bottom Sheet táctil optimizado (`h-[88dvh]` con Sticky Action Bar fija al pie para que los botones de acción nunca queden tapados por las barras del navegador, carrusel con swipe horizontal y scroll vertical libre de fricción).
 
 ## Paleta de Colores Oficial
 * **White (`#FFFFFF`):** Fondos de tarjetas y superficies limpias de contraste.

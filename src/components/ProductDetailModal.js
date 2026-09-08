@@ -72,29 +72,6 @@ export default function ProductDetailModal({ product, onClose }) {
         setStep("detail");
     }, []);
 
-    const innerRef = useRef(null);
-    const [modalHeight, setModalHeight] = useState(null);
-
-    // Ajuste dinámico de altura en PC: se adapta y anima suavemente al cambiar de paso
-    useEffect(() => {
-        if (!innerRef.current || isMobile) return;
-
-        const updateHeight = () => {
-            if (innerRef.current) {
-                const h = innerRef.current.offsetHeight;
-                if (h > 0) setModalHeight(h);
-            }
-        };
-
-        updateHeight();
-
-        const observer = new ResizeObserver(() => {
-            updateHeight();
-        });
-
-        observer.observe(innerRef.current);
-        return () => observer.disconnect();
-    }, [step, isMobile]);
 
     // Inicializar datos del cliente (recupera de localStorage si existen previos)
     const [formData, setFormData] = useState(() => {
@@ -369,15 +346,13 @@ export default function ProductDetailModal({ product, onClose }) {
                             scale: 1, 
                             opacity: 1, 
                             y: 0, 
-                            ...(modalHeight ? { height: modalHeight } : {}) 
                           }
                 }
                 exit={isMobile ? { y: "100%", opacity: 0 } : { scale: 0.95, opacity: 0, y: 16 }}
                 transition={{ 
                     type: "spring", 
-                    damping: 30, 
-                    stiffness: 260,
-                    height: { type: "spring", damping: 30, stiffness: 260, mass: 0.8 }
+                    damping: 28, 
+                    stiffness: 300,
                 }}
                 style={isMobile ? { y } : undefined}
                 drag={isMobile ? "y" : false}
@@ -392,10 +367,10 @@ export default function ProductDetailModal({ product, onClose }) {
                         animate(y, 0, { type: "spring", damping: 28, stiffness: 320 });
                     }
                 }}
-                className="relative w-full sm:max-w-4xl lg:max-w-5xl bg-paper rounded-t-[32px] sm:rounded-[32px] shadow-2xl overflow-hidden z-10 h-[88dvh] max-h-[88dvh] sm:h-auto sm:max-h-[90vh] flex flex-col border-t sm:border border-white/60 sm:border-black/[0.08]"
+                className="relative w-full sm:max-w-4xl lg:max-w-5xl bg-paper rounded-t-[32px] sm:rounded-[32px] shadow-2xl overflow-hidden z-10 h-[88dvh] max-h-[88dvh] sm:h-[580px] lg:h-[600px] sm:max-h-[88vh] flex flex-col border-t sm:border border-white/60 sm:border-black/[0.08]"
             >
-                {/* Contenedor medidor para animar la altura dinámicamente según el contenido */}
-                <div ref={innerRef} className="flex flex-col w-full h-full flex-1 min-h-0">
+                {/* Contenedor principal de contenido */}
+                <div className="flex flex-col w-full h-full flex-1 min-h-0">
                     {/* Zona de Arrastre Superior (Grab Handle + Header táctil solo en móvil) */}
                     <div
                         onPointerDown={(e) => {

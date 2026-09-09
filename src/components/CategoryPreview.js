@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-// CAPA 1: Modelo de datos (Equivalente a un List[Dict] en Python)
+// CAPA 1: Modelo de datos
 const CATEGORIES = [
     {
         id: "dulces",
@@ -25,10 +25,10 @@ const CATEGORIES = [
 
 export default function CategoryPreview() {
     return (
-        // CAPA 2 & 3: Esqueleto semántico y Layout con Tailwind
+        // Esqueleto semántico y Layout con Tailwind
         <section className="max-w-6xl mx-auto px-4 sm:px-6">
             
-            {/* Título de la sección con adornos de trigo */}
+            {/* Adornos de trigo */}
             <div className="flex items-center justify-center gap-1.5 mb-3.5 sm:mb-6 text-center">
                 <div className="hover:scale-110 active:scale-95 transition-transform duration-300 ease-out cursor-pointer">
                     <Image 
@@ -56,7 +56,7 @@ export default function CategoryPreview() {
                 </div>
             </div>
 
-            {/* Carrusel táctil en móvil (flex snap con peek óptimo) / Cuadrícula de 3 columnas en desktop */}
+            {/* Carrusel táctil en móvil / Cuadrícula de 3 columnas en desktop */}
             <div className="flex sm:grid sm:grid-cols-3 gap-3.5 sm:gap-8 overflow-x-auto sm:overflow-visible snap-x snap-mandatory pb-3 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0 no-scrollbar">
                 {CATEGORIES.map((category) => (
                     <Link

@@ -26,9 +26,11 @@ export const metadata = {
     default: "Bocadillo — 100% casero",
     template: "%s · Bocadillo",
   },
+
   description:
     "Sandwiches y postres 100% caseros en Perú. Combos hechos a mano y entregados con cariño. Pide por WhatsApp o Instagram.",
 };
+
 
 export default function RootLayout({ children }) {
   return (

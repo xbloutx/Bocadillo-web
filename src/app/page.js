@@ -2,6 +2,7 @@ import Hero from "@/components/Hero";
 import Features from "@/components/Features";
 import CategoryPreview from "@/components/CategoryPreview";
 import HomeFavorites from "@/components/HomeFavorites";
+import InstagramSection from "@/components/InstagramSection";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <Features />
       <CategoryPreview />
       <HomeFavorites />
+      <InstagramSection />
     </main>
   );
 }

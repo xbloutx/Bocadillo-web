@@ -8,7 +8,7 @@ import { FiEye } from "react-icons/fi";
 import { products } from "@/data/products";
 import ProductDetailModal from "@/components/ProductDetailModal";
 
-// 👇 LISTA DE FAVORITOS: Cambia o reordena los IDs de los combos que quieres mostrar en portada
+// LISTA DE FAVORITOS
 const FAVORITE_PRODUCT_IDS = [1, 2, 3, 4, 8, 9, 10, 11, 13, 19, 21, 22];
 
 export default function HomeFavorites() {
@@ -20,7 +20,7 @@ export default function HomeFavorites() {
         .filter(Boolean);
 
     return (
-        <section className="relative pt-1 pb-10 sm:pt-4 sm:pb-20 bg-gradient-to-b from-transparent via-bocadillo-antique/20 to-transparent">
+        <section className="relative pt-1 pb-10 sm:pt-4 bg-gradient-to-b from-transparent via-bocadillo-antique/20 to-transparent">
             <div className="max-w-7xl mx-auto px-4 sm:px-8">
                 
                 {/* Cabecera minimalista y limpia */}

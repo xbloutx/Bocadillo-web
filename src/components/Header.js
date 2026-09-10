@@ -123,14 +123,14 @@ export default function Header() {
                         }}
                         className="fixed inset-0 z-50 md:hidden flex flex-col justify-start px-3 pt-3"
                     >
-                        {/* Backdrop transparente para cerrar al tocar fuera */}
+                        {/* Backdrop oscurecido al 80% uniforme con los modales de combos */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.2 }}
                             onClick={() => setIsMenuOpen(false)}
-                            className="fixed inset-0 bg-transparent"
+                            className="fixed inset-0 bg-black/80 will-change-[opacity]"
                         />
 
                         {/* Tarjeta Flotante del Menú */}
@@ -139,7 +139,7 @@ export default function Header() {
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: -16, scale: 0.97 }}
                             transition={{ type: "spring", damping: 26, stiffness: 320 }}
-                            className="relative w-full max-w-sm mx-auto bg-white/95 backdrop-blur-2xl border border-bocadillo-copper/20 rounded-3xl p-5 shadow-[0_20px_50px_rgba(71,33,13,0.18)] z-10"
+                            className="relative w-full max-w-sm mx-auto bg-white/98 backdrop-blur-xl border border-bocadillo-copper/20 rounded-3xl p-5 shadow-2xl z-10"
                         >
                             {/* Cabecera del Drawer */}
                             <div className="flex items-center justify-between pb-3 mb-3.5 border-b border-bocadillo-copper/15">

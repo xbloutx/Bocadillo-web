@@ -81,9 +81,9 @@ export default function ProductDetailModal({ product, onClose }) {
                 if (saved) savedData = JSON.parse(saved);
             } catch (_) {}
         }
+        const savedFullName = savedData.fullName || (savedData.firstName ? `${savedData.firstName} ${savedData.lastName || ""}`.trim() : "");
         return {
-            firstName: savedData.firstName || "",
-            lastName: savedData.lastName || "",
+            fullName: savedFullName,
             deliveryDate: "",
             deliveryTime: "",
             addressDistrict: savedData.addressDistrict || "",
@@ -96,13 +96,12 @@ export default function ProductDetailModal({ product, onClose }) {
     const handleInputChange = (field, value) => {
         setFormData((prev) => {
             const next = { ...prev, [field]: value };
-            if (["firstName", "lastName", "addressDistrict", "reference"].includes(field)) {
+            if (["fullName", "addressDistrict", "reference"].includes(field)) {
                 try {
                     localStorage.setItem(
                         "bocadillo_customer_details",
                         JSON.stringify({
-                            firstName: next.firstName,
-                            lastName: next.lastName,
+                            fullName: next.fullName,
                             addressDistrict: next.addressDistrict,
                             reference: next.reference,
                         })
@@ -127,8 +126,7 @@ export default function ProductDetailModal({ product, onClose }) {
     const handleSendWhatsApp = (e) => {
         if (e) e.preventDefault();
         const errors = {};
-        if (!formData.firstName.trim()) errors.firstName = true;
-        if (!formData.lastName.trim()) errors.lastName = true;
+        if (!formData.fullName.trim()) errors.fullName = true;
         if (!formData.deliveryDate) errors.deliveryDate = true;
         if (!formData.deliveryTime) errors.deliveryTime = true;
         if (!formData.addressDistrict.trim()) errors.addressDistrict = true;
@@ -138,9 +136,9 @@ export default function ProductDetailModal({ product, onClose }) {
             return;
         }
 
-        const clientName = `${formData.firstName.trim()} ${formData.lastName.trim()}`;
+        const clientName = formData.fullName.trim();
         const referenceText = formData.reference.trim() ? formData.reference.trim() : "Ninguna";
-        const noteLine = formData.note && formData.note.trim() ? `\n• *Nota:* ${formData.note.trim()}` : "";
+        const commentLine = formData.note && formData.note.trim() ? `\n• *Comentario:* ${formData.note.trim()}` : "";
 
         const text = `¡Hola Bocadillo! ♡ Quisiera realizar este pedido:
 
@@ -154,7 +152,7 @@ export default function ProductDetailModal({ product, onClose }) {
 • *Fecha de entrega:* ${formData.deliveryDate}
 • *Hora aproximada:* ${formData.deliveryTime}
 • *Dirección y Distrito:* ${formData.addressDistrict.trim()}
-• *Referencia:* ${referenceText}${noteLine}
+• *Referencia:* ${referenceText}${commentLine}
 
 ¿Me confirman disponibilidad para coordinar el pago y la entrega? ¡Muchas gracias! ♡`;
 
@@ -691,39 +689,21 @@ export default function ProductDetailModal({ product, onClose }) {
                                             {/* Campos del Formulario de Entrega */}
                                             <form onSubmit={handleSendWhatsApp} className="space-y-3 sm:space-y-3.5">
                                                 {/* Nombre y Apellido */}
-                                                <div className="grid grid-cols-2 gap-2.5">
-                                                    <div>
-                                                        <label className="font-serif text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-bocadillo-bark block mb-1">
-                                                            Nombre <span className="text-red-500">*</span>
-                                                        </label>
-                                                        <input
-                                                            type="text"
-                                                            value={formData.firstName}
-                                                            onChange={(e) => handleInputChange("firstName", e.target.value)}
-                                                            placeholder="Ej: María"
-                                                            className={`w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white border text-base sm:text-sm text-bocadillo-walnut placeholder:text-bocadillo-walnut/35 focus:outline-none transition-all ${
-                                                                formErrors.firstName 
-                                                                    ? "border-red-400 bg-red-50/40 ring-1 ring-red-400" 
-                                                                    : "border-bocadillo-copper/25 focus:border-bocadillo-copper focus:ring-1 focus:ring-bocadillo-copper"
-                                                            }`}
-                                                        />
-                                                    </div>
-                                                    <div>
-                                                        <label className="font-serif text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-bocadillo-bark block mb-1">
-                                                            Apellido <span className="text-red-500">*</span>
-                                                        </label>
-                                                        <input
-                                                            type="text"
-                                                            value={formData.lastName}
-                                                            onChange={(e) => handleInputChange("lastName", e.target.value)}
-                                                            placeholder="Ej: García"
-                                                            className={`w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white border text-base sm:text-sm text-bocadillo-walnut placeholder:text-bocadillo-walnut/35 focus:outline-none transition-all ${
-                                                                formErrors.lastName 
-                                                                    ? "border-red-400 bg-red-50/40 ring-1 ring-red-400" 
-                                                                    : "border-bocadillo-copper/25 focus:border-bocadillo-copper focus:ring-1 focus:ring-bocadillo-copper"
-                                                            }`}
-                                                        />
-                                                    </div>
+                                                <div>
+                                                    <label className="font-serif text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-bocadillo-bark block mb-1">
+                                                        Nombre y Apellido <span className="text-red-500">*</span>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        value={formData.fullName}
+                                                        onChange={(e) => handleInputChange("fullName", e.target.value)}
+                                                        placeholder="Ej: Rocio Tacza"
+                                                        className={`w-full px-3.5 py-2 sm:py-2.5 rounded-xl bg-white border text-base sm:text-sm text-bocadillo-walnut placeholder:text-bocadillo-walnut/35 focus:outline-none transition-all ${
+                                                            formErrors.fullName 
+                                                                ? "border-red-400 bg-red-50/40 ring-1 ring-red-400" 
+                                                                : "border-bocadillo-copper/25 focus:border-bocadillo-copper focus:ring-1 focus:ring-bocadillo-copper"
+                                                        }`}
+                                                    />
                                                 </div>
 
                                                 {/* Fecha y Hora de entrega */}
@@ -762,9 +742,9 @@ export default function ProductDetailModal({ product, onClose }) {
                                                 </div>
 
                                                 {/* Dirección con Distrito */}
-                                                <div>
+                                                <div>   
                                                     <label className="font-serif text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-bocadillo-bark block mb-1">
-                                                        Dirección con Distrito <span className="text-red-500">*</span>
+                                                        Dirección y Distrito <span className="text-red-500">*</span>
                                                     </label>
                                                     <input
                                                         type="text"
@@ -795,13 +775,13 @@ export default function ProductDetailModal({ product, onClose }) {
 
                                                 <div>
                                                     <label className="font-serif text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-bocadillo-bark block mb-1">
-                                                        Nota o dedicatoria (Opcional)
+                                                        Comentario
                                                     </label>
                                                     <input
                                                         type="text"
                                                         value={formData.note}
                                                         onChange={(e) => handleInputChange("note", e.target.value)}
-                                                        placeholder="Ej: Es para regalo, dedicatoria o indicación especial"
+                                                        placeholder="Ej: Pedido para el día de la madre"
                                                         className="w-full px-3.5 py-2 sm:py-2.5 rounded-xl bg-white border border-bocadillo-copper/25 text-base sm:text-sm text-bocadillo-walnut placeholder:text-bocadillo-walnut/35 focus:outline-none focus:border-bocadillo-copper focus:ring-1 focus:ring-bocadillo-copper transition-all"
                                                     />
                                                 </div>

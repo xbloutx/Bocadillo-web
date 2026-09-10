@@ -20,7 +20,6 @@ export default function ProductDetailModal({ product, onClose }) {
 
     // Gestos fluidos Framer Motion estilo Apple
     const y = useMotionValue(0);
-    const backdropOpacity = useTransform(y, [0, 300], [1, 0]);
     const dragControls = useDragControls();
 
     // Gestos táctiles de deslizamiento horizontal para el carrusel en móvil
@@ -89,6 +88,7 @@ export default function ProductDetailModal({ product, onClose }) {
             deliveryTime: "",
             addressDistrict: savedData.addressDistrict || "",
             reference: savedData.reference || "",
+            note: "",
         };
     });
     const [formErrors, setFormErrors] = useState({});
@@ -140,6 +140,7 @@ export default function ProductDetailModal({ product, onClose }) {
 
         const clientName = `${formData.firstName.trim()} ${formData.lastName.trim()}`;
         const referenceText = formData.reference.trim() ? formData.reference.trim() : "Ninguna";
+        const noteLine = formData.note && formData.note.trim() ? `\n• *Nota:* ${formData.note.trim()}` : "";
 
         const text = `¡Hola Bocadillo! ♡ Quisiera realizar este pedido:
 
@@ -153,7 +154,7 @@ export default function ProductDetailModal({ product, onClose }) {
 • *Fecha de entrega:* ${formData.deliveryDate}
 • *Hora aproximada:* ${formData.deliveryTime}
 • *Dirección y Distrito:* ${formData.addressDistrict.trim()}
-• *Referencia:* ${referenceText}
+• *Referencia:* ${referenceText}${noteLine}
 
 ¿Me confirman disponibilidad para coordinar el pago y la entrega? ¡Muchas gracias! ♡`;
 
@@ -318,15 +319,14 @@ export default function ProductDetailModal({ product, onClose }) {
             }}
             className="fixed inset-0 h-dvh z-50 flex items-end sm:items-center justify-center p-0 sm:p-6 lg:p-10 overflow-hidden"
         >
-            {/* Backdrop oscurecido con desenfoque de fondo */}
+            {/* Backdrop oscurecido optimizado por GPU (sin blur fullscreen para fluidez instantánea a 60fps) */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                style={isMobile ? { opacity: backdropOpacity } : undefined}
-                transition={{ duration: 0.25 }}
+                transition={{ duration: 0.2 }}
                 onClick={onClose}
-                className="fixed inset-0 bg-black/60 backdrop-blur-md"
+                className="fixed inset-0 bg-black/80 will-change-[opacity]"
                 aria-hidden="true"
             />
 
@@ -367,7 +367,7 @@ export default function ProductDetailModal({ product, onClose }) {
                         animate(y, 0, { type: "spring", damping: 28, stiffness: 320 });
                     }
                 }}
-                className="relative w-full sm:max-w-3xl lg:max-w-[940px] bg-paper rounded-t-[32px] sm:rounded-[32px] shadow-2xl overflow-hidden z-10 h-[88dvh] max-h-[88dvh] sm:h-auto sm:max-h-[88vh] flex flex-col border-t sm:border border-white/60 sm:border-black/[0.08]"
+                className="relative w-full sm:max-w-3xl lg:max-w-[940px] bg-paper rounded-t-[32px] sm:rounded-[32px] shadow-2xl overflow-hidden z-10 h-[93dvh] max-h-[93dvh] sm:h-auto sm:max-h-[88vh] flex flex-col border-t sm:border border-white/60 sm:border-black/[0.08]"
             >
                 {/* Contenedor principal de contenido */}
                 <div className="flex flex-col w-full h-full flex-1 min-h-0">
@@ -387,26 +387,18 @@ export default function ProductDetailModal({ product, onClose }) {
 
                     {/* Barra superior estilo Apple (solo en móvil) */}
                     <div className="flex items-center justify-between px-4 pt-0.5 pb-2.5 border-b border-black/5 bg-paper/85 backdrop-blur-md sticky top-0 z-20 h-11">
-                        <AnimatePresence mode="wait" custom={direction} initial={false}>
-                            <motion.button
-                                key={step === "checkout" ? "btn-back" : "btn-empty"}
+                        {step === "checkout" ? (
+                            <button
                                 type="button"
-                                onClick={step === "checkout" ? goToDetail : undefined}
-                                disabled={step !== "checkout"}
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.8 }}
-                                transition={{ duration: 0.15 }}
-                                className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
-                                    step === "checkout" 
-                                        ? "bg-black/5 active:scale-90 text-bocadillo-walnut cursor-pointer pointer-events-auto" 
-                                        : "opacity-0 pointer-events-none"
-                                }`}
+                                onClick={goToDetail}
+                                className="w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 active:scale-90 flex items-center justify-center text-bocadillo-walnut transition-transform cursor-pointer"
                                 aria-label="Volver a la información del combo"
                             >
                                 <FaChevronLeft className="text-xs" />
-                            </motion.button>
-                        </AnimatePresence>
+                            </button>
+                        ) : (
+                            <div className="w-8 h-8" aria-hidden="true" />
+                        )}
 
                         <AnimatePresence mode="wait" custom={direction} initial={false}>
                             <motion.h2
@@ -432,84 +424,75 @@ export default function ProductDetailModal({ product, onClose }) {
                     </div>
                 </div>
 
+                {/* Cabecera Desktop Completa (Abarca de lado a lado en PC) */}
+                <div className="hidden sm:flex items-center justify-between px-6 lg:px-8 py-3.5 border-b border-black/5 bg-paper/95 backdrop-blur-md relative shrink-0 z-20">
+                    <div className="flex items-center gap-3 flex-1 min-w-0 pr-4">
+                        <AnimatePresence mode="wait" custom={direction} initial={false}>
+                            {step === "checkout" ? (
+                                <motion.div
+                                    key="desktop-header-checkout"
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -10 }}
+                                    transition={{ duration: 0.18 }}
+                                    className="flex items-center gap-3"
+                                >
+                                    <button
+                                        type="button"
+                                        onClick={goToDetail}
+                                        className="group inline-flex items-center gap-1.5 font-serif text-xs font-bold text-bocadillo-copper hover:text-bocadillo-walnut active:scale-95 transition-all cursor-pointer"
+                                    >
+                                        <FaChevronLeft className="text-[10px] group-hover:-translate-x-0.5 transition-transform" />
+                                        <span>Volver al combo</span>
+                                    </button>
+                                    <span className="text-black/20 text-xs">/</span>
+                                    <h2 className="font-serif font-black text-xs uppercase tracking-widest text-bocadillo-walnut">
+                                        DATOS DE ENTREGA
+                                    </h2>
+                                </motion.div>
+                            ) : (
+                                <motion.div
+                                    key="desktop-header-detail"
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -10 }}
+                                    transition={{ duration: 0.18 }}
+                                    className="flex items-center gap-3 flex-wrap min-w-0"
+                                >
+                                    <h2 id="modal-title" className="font-serif font-bold text-base lg:text-lg text-bocadillo-walnut leading-snug">
+                                        {product.name}
+                                    </h2>
+                                    <div className="inline-block px-2.5 py-0.5 bg-bocadillo-antique/60 rounded-full border border-bocadillo-copper/20 shadow-2xs shrink-0">
+                                        <span className="font-serif text-[11px] font-semibold text-bocadillo-copper tracking-wide">
+                                            Presentación: {product.presentation}
+                                        </span>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
+
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        aria-label="Cerrar ventana"
+                        className="w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 active:scale-90 flex items-center justify-center text-bocadillo-walnut transition-all cursor-pointer shrink-0 ml-3"
+                    >
+                        <FaXmark className="text-sm" />
+                    </button>
+                </div>
+
                 {/* Estructura: 1 columna en móvil / 2 columnas divididas al 50-50 en PC para máxima apreciación fotográfica */}
                 <div className="flex flex-col sm:grid sm:grid-cols-12 flex-1 overflow-hidden min-h-0">
-                    {/* COLUMNA IZQUIERDA: Foto más grande + Título + Presentación (Ficha de identidad visual completa) */}
-                    <div className="hidden sm:flex sm:col-span-6 p-6 lg:p-7 flex-col justify-center bg-bocadillo-antique/25 sm:border-r border-black/5 shrink-0 space-y-3.5">
-                        {renderCarousel("sm:h-[270px] lg:h-[295px]")}
-
-                        <div className="space-y-1.5 pt-0.5">
-                            <h3 className="font-serif font-bold text-base sm:text-lg lg:text-xl text-bocadillo-walnut leading-snug">
-                                {product.name}
-                            </h3>
-
-                            <div className="inline-block px-2.5 py-0.5 bg-white/80 rounded-full border border-bocadillo-copper/20 shadow-2xs">
-                                <span className="font-serif text-xs font-semibold text-bocadillo-copper tracking-wide">
-                                    Presentación: {product.presentation}
-                                </span>
-                            </div>
-
-                            {product.description && (
-                                <p className="text-xs sm:text-sm text-bocadillo-walnut/75 leading-relaxed line-clamp-2 pt-0.5">
-                                    {product.description}
-                                </p>
-                            )}
+                    {/* COLUMNA IZQUIERDA: Galería fotográfica en proporción cuadrada íntegra (sin márgenes sobrantes) */}
+                    <div className="hidden sm:flex sm:col-span-6 p-4 lg:p-5 flex-col justify-center items-center bg-bocadillo-antique/20 sm:border-r border-black/5 shrink-0">
+                        <div className="w-full max-w-[340px] lg:max-w-[365px]">
+                            {renderCarousel("aspect-square w-full")}
                         </div>
                     </div>
 
-                    {/* COLUMNA DERECHA: Cabecera Desktop + Contenido Animado (Paso 1: Detalle | Paso 2: Formulario de Entrega) */}
+                    {/* COLUMNA DERECHA: Contenido Animado (Paso 1: Detalle | Paso 2: Formulario de Entrega) */}
                     <div className="w-full sm:col-span-6 flex flex-col flex-1 overflow-hidden min-h-0 relative">
-                        {/* Cabecera Desktop (solo en PC) */}
-                        <div className="hidden sm:flex items-center justify-between px-6 lg:px-7 pt-4 pb-3 border-b border-black/5 bg-paper/90 backdrop-blur-md relative h-13 sm:h-14 shrink-0">
-                            <AnimatePresence mode="wait" custom={direction} initial={false}>
-                                {step === "detail" ? (
-                                    <motion.div
-                                        key="header-detail"
-                                        initial={{ opacity: 0, x: -10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: -10 }}
-                                        transition={{ duration: 0.18, ease: "easeOut" }}
-                                        className="flex items-center"
-                                    >
-                                        <h2 id="modal-title" className="font-serif font-black text-xs uppercase tracking-widest text-bocadillo-copper">
-                                            DETALLE DEL COMBO
-                                        </h2>
-                                    </motion.div>
-                                ) : (
-                                    <motion.div
-                                        key="header-checkout"
-                                        initial={{ opacity: 0, x: 10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: 10 }}
-                                        transition={{ duration: 0.18, ease: "easeOut" }}
-                                        className="flex items-center gap-3 flex-1"
-                                    >
-                                        <button
-                                            type="button"
-                                            onClick={goToDetail}
-                                            className="group inline-flex items-center gap-1.5 font-serif text-xs font-bold text-bocadillo-copper hover:text-bocadillo-walnut active:scale-95 transition-all cursor-pointer"
-                                        >
-                                            <FaChevronLeft className="text-[10px] group-hover:-translate-x-0.5 transition-transform" />
-                                            <span>Volver al combo</span>
-                                        </button>
-                                        <span className="text-black/20 text-xs">/</span>
-                                        <h2 className="font-serif font-black text-xs uppercase tracking-widest text-bocadillo-walnut">
-                                            DATOS DE ENTREGA
-                                        </h2>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-
-                            <button
-                                type="button"
-                                onClick={onClose}
-                                aria-label="Cerrar ventana"
-                                className="w-8 h-8 rounded-full bg-black/5 hover:bg-black/10 active:scale-90 flex items-center justify-center text-bocadillo-walnut transition-all cursor-pointer shrink-0 ml-3"
-                            >
-                                <FaXmark className="text-sm" />
-                            </button>
-                        </div>
-
                         {/* Contenedor Animado de Pasos (AnimatePresence mode="popLayout" para sincronizar la altura de inmediato) */}
                         <div className="flex-1 overflow-hidden relative flex flex-col min-h-0 w-full">
                             <AnimatePresence mode="popLayout" custom={direction} initial={false}>
@@ -528,43 +511,44 @@ export default function ProductDetailModal({ product, onClose }) {
                                         }}
                                         className="flex flex-col flex-1 overflow-hidden h-full min-h-0 w-full"
                                     >
-                                        {/* En móvil: Carrusel dentro de Step 1 para navegación fluida unificada */}
-                                        <div className="sm:hidden p-3 bg-bocadillo-antique/25 shrink-0">
-                                            {renderCarousel("h-44")}
-                                        </div>
-
-                                        {/* PASO 1: Información detallada del combo */}
+                                        {/* PASO 1: Información detallada del combo con scroll natural */}
                                         <div
-                                            className="overflow-y-auto overscroll-contain px-5 sm:px-6 lg:px-7 py-3.5 sm:py-4.5 flex-1 min-h-0 space-y-3.5"
+                                            className="overflow-y-auto overscroll-contain px-5 sm:px-6 lg:px-7 pt-3.5 sm:pt-4 pb-4 sm:pb-4 flex-1 min-h-0 space-y-3 sm:space-y-3.5"
                                         >
-                                            {/* Título y presentación (solo visible en móvil; en desktop se luce en la columna izquierda) */}
+                                            {/* En móvil: Carrusel integrado en el scroll con proporción generosa para apreciar el combo al 100% */}
                                             <div className="sm:hidden">
-                                                <h3 className="font-serif font-bold text-base sm:text-xl lg:text-2xl text-bocadillo-walnut leading-snug">
+                                                {renderCarousel("aspect-square max-h-[285px] xs:max-h-[320px]")}
+                                            </div>
+
+                                            {/* Título y presentación (visible solo en móvil, en PC se luce en la cabecera superior completa) */}
+                                            <div className="sm:hidden pt-0.5 space-y-1.5">
+                                                <h3 className="font-serif font-bold text-base text-bocadillo-walnut leading-snug">
                                                     {product.name}
                                                 </h3>
 
-                                                <div className="inline-block mt-2 px-2.5 py-0.5 bg-bocadillo-antique/50 rounded-full border border-bocadillo-copper/20">
-                                                    <span className="font-serif text-[11px] sm:text-xs font-semibold text-bocadillo-copper tracking-wide">
+                                                <div className="inline-block px-2.5 py-0.5 bg-bocadillo-antique/60 rounded-full border border-bocadillo-copper/20 shadow-2xs">
+                                                    <span className="font-serif text-[11px] font-semibold text-bocadillo-copper tracking-wide">
                                                         Presentación: {product.presentation}
                                                     </span>
                                                 </div>
-
-                                                {product.description && (
-                                                    <p className="text-xs sm:text-sm text-foreground/80 mt-2.5 leading-relaxed">
-                                                        {product.description}
-                                                    </p>
-                                                )}
                                             </div>
+
+                                            {/* Descripción artesanal */}
+                                            {product.description && (
+                                                <p className="text-xs sm:text-sm text-foreground/80 leading-relaxed">
+                                                    {product.description}
+                                                </p>
+                                            )}
 
                                             {/* Desglose de lo que incluye el Combo */}
                                             {product.items && product.items.length > 0 && (
-                                                <div className="bg-bocadillo-antique/30 rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-black/5 sm:my-auto">
-                                                    <h4 className="font-serif text-[11px] sm:text-xs font-black uppercase tracking-wider text-bocadillo-walnut mb-2.5">
+                                                <div className="bg-bocadillo-antique/30 rounded-xl sm:rounded-2xl p-3.5 sm:p-5 border border-black/5">
+                                                    <h4 className="font-serif text-[11px] sm:text-xs font-black uppercase tracking-wider text-bocadillo-walnut mb-2">
                                                         Este combo incluye:
                                                     </h4>
-                                                    <ul className="space-y-2">
+                                                    <ul className="space-y-1.5 sm:space-y-2">
                                                         {product.items.map((item, idx) => (
-                                                            <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-foreground/90 font-medium">
+                                                            <li key={idx} className="flex items-start gap-2 sm:gap-2.5 text-xs sm:text-sm text-foreground/90 font-medium">
                                                                 <span className="w-4 h-4 rounded-full bg-bocadillo-copper/20 text-bocadillo-copper flex items-center justify-center flex-shrink-0 mt-0.5">
                                                                     <FiCheck className="text-[10px]" />
                                                                 </span>
@@ -577,7 +561,7 @@ export default function ProductDetailModal({ product, onClose }) {
                                         </div>
 
                                         {/* Barra de acción Paso 1: Cantidad + Total + Continuar */}
-                                        <div className="p-3.5 sm:p-4 sm:px-6 lg:px-7 pb-[max(0.875rem,env(safe-area-inset-bottom))] border-t border-black/5 bg-paper/95 backdrop-blur-md space-y-2 sm:space-y-2.5 shrink-0">
+                                        <div className="p-3 sm:p-4 sm:px-6 lg:px-7 pb-[max(0.75rem,env(safe-area-inset-bottom))] border-t border-black/5 bg-paper/95 backdrop-blur-md space-y-2 sm:space-y-2.5 shrink-0">
                                             <div className="flex items-center justify-between px-1">
                                                 {/* Selector de cantidad interactivo editable */}
                                                 <div className="flex items-center gap-1.5 bg-bocadillo-antique/50 border border-bocadillo-copper/20 rounded-full p-0.5 sm:p-1">
@@ -629,7 +613,7 @@ export default function ProductDetailModal({ product, onClose }) {
                                             <button
                                                 type="button"
                                                 onClick={goToCheckout}
-                                                className="group w-full flex items-center justify-center gap-2 bg-bocadillo-walnut hover:bg-bocadillo-bark text-[#F6E9D9] py-2.5 sm:py-3.5 px-5 sm:px-6 rounded-full font-serif font-bold text-xs sm:text-sm tracking-wider uppercase shadow-md shadow-bocadillo-walnut/20 active:scale-[0.98] transition-all duration-75 cursor-pointer"
+                                                className="group w-full flex items-center justify-center gap-2 bg-bocadillo-walnut hover:bg-bocadillo-bark text-[#F6E9D9] py-2.5 sm:py-3.5 px-4 sm:px-6 rounded-full font-serif font-bold text-xs sm:text-sm tracking-wider uppercase shadow-md shadow-bocadillo-walnut/20 active:scale-[0.98] transition-all duration-75 cursor-pointer"
                                             >
                                                 <span>CONTINUAR CON EL PEDIDO</span>
                                                 <FaChevronRight className="text-xs group-hover:translate-x-0.5 transition-transform" />
@@ -717,7 +701,7 @@ export default function ProductDetailModal({ product, onClose }) {
                                                             value={formData.firstName}
                                                             onChange={(e) => handleInputChange("firstName", e.target.value)}
                                                             placeholder="Ej: María"
-                                                            className={`w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white border text-xs sm:text-sm text-bocadillo-walnut placeholder:text-bocadillo-walnut/35 focus:outline-none transition-all ${
+                                                            className={`w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white border text-base sm:text-sm text-bocadillo-walnut placeholder:text-bocadillo-walnut/35 focus:outline-none transition-all ${
                                                                 formErrors.firstName 
                                                                     ? "border-red-400 bg-red-50/40 ring-1 ring-red-400" 
                                                                     : "border-bocadillo-copper/25 focus:border-bocadillo-copper focus:ring-1 focus:ring-bocadillo-copper"
@@ -733,7 +717,7 @@ export default function ProductDetailModal({ product, onClose }) {
                                                             value={formData.lastName}
                                                             onChange={(e) => handleInputChange("lastName", e.target.value)}
                                                             placeholder="Ej: García"
-                                                            className={`w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white border text-xs sm:text-sm text-bocadillo-walnut placeholder:text-bocadillo-walnut/35 focus:outline-none transition-all ${
+                                                            className={`w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white border text-base sm:text-sm text-bocadillo-walnut placeholder:text-bocadillo-walnut/35 focus:outline-none transition-all ${
                                                                 formErrors.lastName 
                                                                     ? "border-red-400 bg-red-50/40 ring-1 ring-red-400" 
                                                                     : "border-bocadillo-copper/25 focus:border-bocadillo-copper focus:ring-1 focus:ring-bocadillo-copper"
@@ -753,7 +737,7 @@ export default function ProductDetailModal({ product, onClose }) {
                                                             min={getTodayDate()}
                                                             value={formData.deliveryDate}
                                                             onChange={(e) => handleInputChange("deliveryDate", e.target.value)}
-                                                            className={`w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white border text-xs sm:text-sm text-bocadillo-walnut focus:outline-none transition-all ${
+                                                            className={`w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white border text-base sm:text-sm text-bocadillo-walnut focus:outline-none transition-all ${
                                                                 formErrors.deliveryDate 
                                                                     ? "border-red-400 bg-red-50/40 ring-1 ring-red-400" 
                                                                     : "border-bocadillo-copper/25 focus:border-bocadillo-copper focus:ring-1 focus:ring-bocadillo-copper"
@@ -768,7 +752,7 @@ export default function ProductDetailModal({ product, onClose }) {
                                                             type="time"
                                                             value={formData.deliveryTime}
                                                             onChange={(e) => handleInputChange("deliveryTime", e.target.value)}
-                                                            className={`w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white border text-xs sm:text-sm text-bocadillo-walnut focus:outline-none transition-all ${
+                                                            className={`w-full px-3 py-2 sm:py-2.5 rounded-xl bg-white border text-base sm:text-sm text-bocadillo-walnut focus:outline-none transition-all ${
                                                                 formErrors.deliveryTime 
                                                                     ? "border-red-400 bg-red-50/40 ring-1 ring-red-400" 
                                                                     : "border-bocadillo-copper/25 focus:border-bocadillo-copper focus:ring-1 focus:ring-bocadillo-copper"
@@ -787,7 +771,7 @@ export default function ProductDetailModal({ product, onClose }) {
                                                         value={formData.addressDistrict}
                                                         onChange={(e) => handleInputChange("addressDistrict", e.target.value)}
                                                         placeholder="Ej: Av. San Martín 450, Magdalena"
-                                                        className={`w-full px-3.5 py-2 sm:py-2.5 rounded-xl bg-white border text-xs sm:text-sm text-bocadillo-walnut placeholder:text-bocadillo-walnut/35 focus:outline-none transition-all ${
+                                                        className={`w-full px-3.5 py-2 sm:py-2.5 rounded-xl bg-white border text-base sm:text-sm text-bocadillo-walnut placeholder:text-bocadillo-walnut/35 focus:outline-none transition-all ${
                                                             formErrors.addressDistrict 
                                                                 ? "border-red-400 bg-red-50/40 ring-1 ring-red-400" 
                                                                 : "border-bocadillo-copper/25 focus:border-bocadillo-copper focus:ring-1 focus:ring-bocadillo-copper"
@@ -805,18 +789,31 @@ export default function ProductDetailModal({ product, onClose }) {
                                                         value={formData.reference}
                                                         onChange={(e) => handleInputChange("reference", e.target.value)}
                                                         placeholder="Ej: Casa blanca, timbre 202, frente al parque"
-                                                        className="w-full px-3.5 py-2 sm:py-2.5 rounded-xl bg-white border border-bocadillo-copper/25 text-xs sm:text-sm text-bocadillo-walnut placeholder:text-bocadillo-walnut/35 focus:outline-none focus:border-bocadillo-copper focus:ring-1 focus:ring-bocadillo-copper transition-all"
+                                                        className="w-full px-3.5 py-2 sm:py-2.5 rounded-xl bg-white border border-bocadillo-copper/25 text-base sm:text-sm text-bocadillo-walnut placeholder:text-bocadillo-walnut/35 focus:outline-none focus:border-bocadillo-copper focus:ring-1 focus:ring-bocadillo-copper transition-all"
+                                                    />
+                                                </div>
+
+                                                <div>
+                                                    <label className="font-serif text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-bocadillo-bark block mb-1">
+                                                        Nota o dedicatoria (Opcional)
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        value={formData.note}
+                                                        onChange={(e) => handleInputChange("note", e.target.value)}
+                                                        placeholder="Ej: Es para regalo, dedicatoria o indicación especial"
+                                                        className="w-full px-3.5 py-2 sm:py-2.5 rounded-xl bg-white border border-bocadillo-copper/25 text-base sm:text-sm text-bocadillo-walnut placeholder:text-bocadillo-walnut/35 focus:outline-none focus:border-bocadillo-copper focus:ring-1 focus:ring-bocadillo-copper transition-all"
                                                     />
                                                 </div>
                                             </form>
                                         </div>
 
                                         {/* Barra de acción Paso 2: Botón Final WhatsApp */}
-                                        <div className="p-3.5 sm:p-4 sm:px-6 lg:px-7 pb-[max(0.875rem,env(safe-area-inset-bottom))] border-t border-black/5 bg-paper/95 backdrop-blur-md space-y-2 sm:space-y-2.5 shrink-0">
+                                        <div className="p-3 sm:p-4 sm:px-6 lg:px-7 pb-[max(0.75rem,env(safe-area-inset-bottom))] border-t border-black/5 bg-paper/95 backdrop-blur-md space-y-2 sm:space-y-2.5 shrink-0">
                                             <button
                                                 type="button"
                                                 onClick={handleSendWhatsApp}
-                                                className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white py-2.5 sm:py-3.5 px-5 sm:px-6 rounded-full font-serif font-bold text-xs sm:text-sm tracking-wide shadow-md shadow-[#25D366]/25 active:scale-[0.98] transition-all duration-75 cursor-pointer"
+                                                className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white py-2.5 sm:py-3.5 px-4 sm:px-6 rounded-full font-serif font-bold text-xs sm:text-sm tracking-wide shadow-md shadow-[#25D366]/25 active:scale-[0.98] transition-all duration-75 cursor-pointer"
                                             >
                                                 <FaWhatsapp className="text-lg" />
                                                 <span>ENVIAR PEDIDO POR WHATSAPP</span>

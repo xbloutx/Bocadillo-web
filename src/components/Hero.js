@@ -63,7 +63,6 @@ export default function Hero() {
                         VER CATÁLOGO
                     </Link>
                 </div>
-
             </div>            
         </section>
     );

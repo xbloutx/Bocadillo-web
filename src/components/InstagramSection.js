@@ -64,14 +64,11 @@ export default function InstagramSection() {
                                     rel="noopener noreferrer"
                                     className="font-serif font-black text-xl sm:text-3xl text-bocadillo-walnut hover:text-bocadillo-copper transition-colors tracking-tight"
                                 >
-                                    bocadillope
+                                    @bocadillope
                                 </a>
-                                <span className="inline-flex items-center px-2 py-0.5 sm:px-2.5 rounded-full text-[11px] sm:text-xs font-bold bg-pink-50 text-pink-600 border border-pink-200/70 shadow-2xs">
-                                    <FaInstagram className="mr-1 text-[11px] sm:text-xs" /> Instagram
-                                </span>
                             </div>
-                            <p className="font-script font-bold text-[15px] sm:text-xl md:text-2xl text-bocadillo-copper mt-0.5 sm:mt-1 leading-snug">
-                                Cajas de bocaditos caseros y momentos dulces en Lima ♡
+                            <p className="font-serift font-bold text-[15px] sm:text-xl md:text-base text-bocadillo-copper mt-0.5 sm:mt-1 leading-snug">
+                                Bocadillo | Hecho en casa
                             </p>
                         </div>
                     </div>

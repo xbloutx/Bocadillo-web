@@ -1,6 +1,9 @@
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { OrderProvider } from "@/context/OrderContext";
+import OrderFloatingBar from "@/components/OrderFloatingBar";
+import OrderSummaryModal from "@/components/OrderSummaryModal";
 import { Bitter, Dancing_Script } from "next/font/google";
 
 const bitter = Bitter({
@@ -40,9 +43,13 @@ export default function RootLayout({ children }) {
         suppressHydrationWarning 
         className={`${bitter.variable} ${dancing.variable} flex flex-col min-h-screen selection:bg-bocadillo-copper/20 selection:text-bocadillo-walnut`}
       >
-        <Header />
-        <div className="flex-1 flex flex-col">{children}</div>
-        <Footer />
+        <OrderProvider>
+          <Header />
+          <div className="flex-1 flex flex-col">{children}</div>
+          <Footer />
+          <OrderFloatingBar />
+          <OrderSummaryModal />
+        </OrderProvider>
       </body>
     </html>
   );

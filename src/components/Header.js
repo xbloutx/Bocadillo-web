@@ -2,23 +2,25 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { FaWhatsapp } from "react-icons/fa6";
-import { FiGrid, FiX, FiArrowRight } from "react-icons/fi";
+import { FiGrid, FiX, FiArrowRight, FiShoppingBag } from "react-icons/fi";
 import { LuCroissant, LuCakeSlice, LuPackage } from "react-icons/lu";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { useOrder } from "@/context/OrderContext";
 
 const NAV_ITEMS = [
     { href: "/", label: "INICIO" },
     { href: "/catalogo", label: "CATÁLOGO" },
-    { href: "/nosotros", label: "NOSOTROS" },
     { href: "/pedidos", label: "PEDIDOS" },
+    { href: "/nosotros", label: "NOSOTROS" },
     { href: "/contacto", label: "CONTACTO" },
 ];
 
 export default function Header() {
     const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { totalProductsCount, openOrderModal } = useOrder();
 
     // Cerrar con Escape
     const handleKeyDown = useCallback(
@@ -45,7 +47,7 @@ export default function Header() {
     return (
         <>
             <header className="sticky top-0 z-40 w-full flex justify-center px-3 py-2 sm:px-6 sm:py-3 transition-all duration-200">
-                <div className="w-full max-w-6xl flex items-center justify-between px-3 sm:px-6 py-1.5 sm:py-2.5 bg-white/80  backdrop-blur-xl saturate-[180%] border border-white/60 shadow-[0_4px_24px_rgba(71,33,13,0.06)] rounded-full">
+                <div className="relative w-full max-w-6xl flex items-center justify-between px-3 sm:px-6 py-1.5 sm:py-2.5 bg-white/80 backdrop-blur-xl saturate-[180%] border border-white/60 shadow-[0_4px_24px_rgba(71,33,13,0.06)] rounded-full">
                     
                     {/* Botón Móvil: Menú / Categorías (44px touch target) */}
                     <div className="flex items-center md:hidden">
@@ -53,7 +55,7 @@ export default function Header() {
                             type="button"
                             onClick={() => setIsMenuOpen(true)}
                             aria-label="Abrir categorías y menú"
-                            className="w-10 h-10 -ml-1 rounded-full flex items-center justify-center text-bocadillo-walnut/90 hover:bg-black/5 active:scale-90 transition-transform"
+                            className="w-10 h-10 -ml-1 rounded-full flex items-center justify-center text-bocadillo-walnut/90 hover:bg-black/5 active:scale-90 transition-transform cursor-pointer"
                         >
                             <FiGrid className="text-xl" />
                         </button>
@@ -70,7 +72,7 @@ export default function Header() {
                     {/* Logo: Versión Móvil centrado y discreto (sin competir con el Hero) */}
                     <Link 
                         href="/" 
-                        className="md:hidden font-serif text-base font-bold text-bocadillo-walnut/85 active:scale-95 transition-transform"
+                        className="md:hidden absolute left-1/2 -translate-x-1/2 font-serif text-base font-bold text-bocadillo-walnut/85 active:scale-95 transition-transform pointer-events-auto"
                     >
                         BOCADILLO
                     </Link>
@@ -99,8 +101,68 @@ export default function Header() {
                         })}
                     </nav>
 
-                    {/* Botón WhatsApp */}
-                    <div className="flex items-center">
+                    {/* Acciones Derecha: Bolsa de Pedidos + WhatsApp */}
+                    <div className="flex items-center gap-0.5 sm:gap-1.5">
+                        <AnimatePresence>
+                            {totalProductsCount > 0 && (
+                                <motion.button
+                                    key="header-order-bag"
+                                    initial={{ scale: 0.7, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 1 }}
+                                    exit={{ scale: 0.7, opacity: 0 }}
+                                    transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                                    whileTap={{ scale: 0.88 }}
+                                    type="button"
+                                    onClick={openOrderModal}
+                                    aria-label={`Ver mi pedido (${totalProductsCount} productos)`}
+                                    className="w-10 h-10 rounded-full flex items-center justify-center text-bocadillo-walnut/85 hover:text-bocadillo-walnut hover:bg-black/5 active:scale-90 transition-colors cursor-pointer"
+                                >
+                                    <motion.div
+                                        key={totalProductsCount}
+                                        initial={{ scale: 0.82 }}
+                                        animate={{ scale: 1 }}
+                                        transition={{ type: "spring", stiffness: 500, damping: 20 }}
+                                        className="flex items-center justify-center text-bocadillo-walnut"
+                                    >
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            className="w-[21px] h-[21px]"
+                                            aria-hidden="true"
+                                        >
+                                            {/* Asa estilizada de la bolsa Apple */}
+                                            <path
+                                                d="M8.5 7.2a3.5 3.5 0 0 1 7 0"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="1.8"
+                                                strokeLinecap="round"
+                                            />
+                                            {/* Cuerpo contorneado de la bolsa */}
+                                            <path
+                                                d="M5.4 7.2h13.2l1.1 12.3a1.8 1.8 0 0 1-1.8 1.8H6.1a1.8 1.8 0 0 1-1.8-1.8L5.4 7.2z"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="1.8"
+                                                strokeLinejoin="round"
+                                            />
+                                            {/* Número integrado en el vientre de la bolsa */}
+                                            <text
+                                                x="12"
+                                                y={totalProductsCount > 9 ? "16.8" : "16.5"}
+                                                textAnchor="middle"
+                                                fontSize={totalProductsCount > 99 ? "6.5" : totalProductsCount > 9 ? "7.5" : "8.5"}
+                                                fontWeight="800"
+                                                fontFamily="system-ui, -apple-system, BlinkMacSystemFont, sans-serif"
+                                                fill="currentColor"
+                                            >
+                                                {totalProductsCount > 99 ? "99+" : totalProductsCount}
+                                            </text>
+                                        </svg>
+                                    </motion.div>
+                                </motion.button>
+                            )}
+                        </AnimatePresence>
+
                         <a
                             href="https://wa.me/51902733258"
                             target="_blank"

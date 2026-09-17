@@ -3,14 +3,39 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, useMotionValue, useTransform, useDragControls, animate } from "framer-motion";
-import { FaWhatsapp, FaChevronLeft, FaChevronRight, FaXmark } from "react-icons/fa6";
-import { FiCheck, FiMinus, FiPlus } from "react-icons/fi";
+import { FaWhatsapp, FaChevronLeft, FaChevronRight, FaXmark, FaChevronDown } from "react-icons/fa6";
+import { FiCheck, FiMinus, FiPlus, FiShoppingBag } from "react-icons/fi";
+import { useOrder } from "@/context/OrderContext";
 
 const WHATSAPP_NUMBER = "51902733258";
 
 export default function ProductDetailModal({ product, onClose }) {
+    const { addItem } = useOrder();
+    const [isAdded, setIsAdded] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [quantity, setQuantity] = useState(1);
+    const [quantity, setQuantity] = useState(() => {
+        return product?.defaultPack || (product?.packOptions ? product.packOptions[0] : 1);
+    });
+    const [showPackMenu, setShowPackMenu] = useState(false);
+    const packMenuRef = useRef(null);
+
+    // Cerrar menú desplegable al hacer clic fuera
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (packMenuRef.current && !packMenuRef.current.contains(e.target)) {
+                setShowPackMenu(false);
+            }
+        };
+        if (showPackMenu) {
+            document.addEventListener("mousedown", handleClickOutside);
+            document.addEventListener("touchstart", handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("touchstart", handleClickOutside);
+        };
+    }, [showPackMenu]);
+
     const [isMobile, setIsMobile] = useState(() => {
         if (typeof window !== "undefined") {
             return window.innerWidth < 640;
@@ -224,6 +249,14 @@ export default function ProductDetailModal({ product, onClose }) {
     const unitText = product?.unitLabel 
         ? (currentQty === 1 ? product.unitLabel.singular : product.unitLabel.plural)
         : (currentQty === 1 ? "unidad" : "unidades");
+
+    const handleAddToOrder = () => {
+        addItem(product, currentQty, product.packOptions ? currentQty : null);
+        setIsAdded(true);
+        setTimeout(() => {
+            setIsAdded(false);
+        }, 1600);
+    };
 
     // Variantes de transición cinemática fluida estilo Apple (Desplazamiento + Desenfoque sutil + Opacidad)
     const stepVariants = {
@@ -561,40 +594,117 @@ export default function ProductDetailModal({ product, onClose }) {
                                         {/* Barra de acción Paso 1: Cantidad + Total + Continuar */}
                                         <div className="p-3 sm:p-4 sm:px-6 lg:px-7 pb-[max(0.75rem,env(safe-area-inset-bottom))] border-t border-black/5 bg-paper/95 backdrop-blur-md space-y-2 sm:space-y-2.5 shrink-0">
                                             <div className="flex items-center justify-between px-1">
-                                                {/* Selector de cantidad interactivo editable */}
-                                                <div className="flex items-center gap-1.5 bg-bocadillo-antique/50 border border-bocadillo-copper/20 rounded-full p-0.5 sm:p-1">
-                                                    <button
-                                                        type="button"
-                                                        onClick={decreaseQuantity}
-                                                        disabled={currentQty <= 1}
-                                                        aria-label="Disminuir cantidad"
-                                                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-bocadillo-walnut flex items-center justify-center hover:bg-bocadillo-antique active:scale-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xs shrink-0 cursor-pointer"
-                                                    >
-                                                        <FiMinus className="text-xs sm:text-sm" />
-                                                    </button>
-                                                    <input
-                                                        type="number"
-                                                        min="1"
-                                                        max="999"
-                                                        inputMode="numeric"
-                                                        pattern="[0-9]*"
-                                                        value={quantity}
-                                                        onChange={handleQuantityChange}
-                                                        onFocus={(e) => e.target.select()}
-                                                        onClick={(e) => e.target.select()}
-                                                        onBlur={handleQuantityBlur}
-                                                        aria-label="Cantidad a pedir"
-                                                        className="w-11 sm:w-12 text-center font-serif font-black text-base text-bocadillo-walnut bg-transparent focus:outline-none focus:bg-white/80 rounded transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                                    />
-                                                    <button
-                                                        type="button"
-                                                        onClick={increaseQuantity}
-                                                        aria-label="Aumentar cantidad"
-                                                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-bocadillo-walnut flex items-center justify-center hover:bg-bocadillo-antique active:scale-90 transition-all shadow-xs shrink-0 cursor-pointer"
-                                                    >
-                                                        <FiPlus className="text-xs sm:text-sm" />
-                                                    </button>
-                                                </div>
+                                                {/* Selector: Menú desplegable para packs O selector [-] [+] para combos */}
+                                                {product.packOptions && product.packOptions.length > 0 ? (
+                                                    <div className="relative" ref={packMenuRef}>
+                                                        {/* Botón píldora interactivo con diseño de cápsula Apple */}
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setShowPackMenu((prev) => !prev)}
+                                                            aria-expanded={showPackMenu}
+                                                            aria-label="Seleccionar cantidad de unidades"
+                                                            className="group flex items-center gap-2 bg-bocadillo-antique/50 hover:bg-bocadillo-antique/80 active:bg-bocadillo-antique active:scale-[0.97] border border-black/[0.06] hover:border-black/10 px-3.5 py-2 sm:py-2.5 rounded-full font-serif font-bold text-xs sm:text-sm text-bocadillo-walnut shadow-2xs hover:shadow-xs cursor-pointer transition-all duration-150"
+                                                        >
+                                                            <span className="text-bocadillo-copper font-medium text-[11px] sm:text-xs">Caja:</span>
+                                                            <span className="font-bold tracking-tight">{currentQty} unid</span>
+                                                            <motion.span
+                                                                animate={{ rotate: showPackMenu ? 180 : 0 }}
+                                                                transition={{ type: "spring", stiffness: 360, damping: 24 }}
+                                                                className="inline-flex text-[10px] text-bocadillo-copper group-hover:text-bocadillo-walnut transition-colors"
+                                                            >
+                                                                <FaChevronDown />
+                                                            </motion.span>
+                                                        </button>
+
+                                                        {/* Menú Popover estilo Apple iOS / macOS Context Menu */}
+                                                        <AnimatePresence>
+                                                            {showPackMenu && (
+                                                                <motion.div
+                                                                    initial={{ opacity: 0, y: 8, scale: 0.94 }}
+                                                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                                    exit={{ opacity: 0, y: 4, scale: 0.96 }}
+                                                                    transition={{ type: "spring", stiffness: 420, damping: 28, mass: 0.8 }}
+                                                                    style={{ transformOrigin: "bottom left" }}
+                                                                    className="absolute bottom-full left-0 mb-2 w-[124px] bg-white/95 backdrop-blur-xl rounded-2xl border border-black/[0.08] shadow-[0_16px_38px_-12px_rgba(0,0,0,0.18),0_4px_12px_rgba(0,0,0,0.06)] ring-1 ring-black/[0.03] p-1.5 z-50 space-y-0.5"
+                                                                >
+                                                                    {/* Título de sección en tono cobre artesanal Bocadillo */}
+                                                                    <div className="px-2.5 pt-1.5 pb-1 text-left border-b border-bocadillo-copper/15 mb-1">
+                                                                        <span className="font-serif text-[10px] font-bold uppercase tracking-wider text-bocadillo-copper block">
+                                                                            Cantidad
+                                                                        </span>
+                                                                    </div>
+
+                                                                    {/* Opciones con física táctil y selección Apple */}
+                                                                    {product.packOptions.map((pack) => {
+                                                                        const isSelected = currentQty === pack;
+                                                                        return (
+                                                                            <button
+                                                                                key={pack}
+                                                                                type="button"
+                                                                                onClick={() => {
+                                                                                    setQuantity(pack);
+                                                                                    setShowPackMenu(false);
+                                                                                }}
+                                                                                className={`w-full text-left px-2.5 py-2 rounded-xl font-serif text-xs transition-all duration-100 flex items-center justify-between active:scale-[0.98] cursor-pointer ${
+                                                                                    isSelected
+                                                                                        ? "bg-bocadillo-antique/80 text-bocadillo-walnut font-bold shadow-2xs"
+                                                                                        : "text-bocadillo-walnut/90 hover:bg-black/[0.04] font-medium"
+                                                                                }`}
+                                                                            >
+                                                                                <span className="tracking-tight">{pack} unidades</span>
+                                                                                {isSelected && (
+                                                                                    <motion.span
+                                                                                        initial={{ scale: 0.6, opacity: 0 }}
+                                                                                        animate={{ scale: 1, opacity: 1 }}
+                                                                                        transition={{ type: "spring", stiffness: 500, damping: 25 }}
+                                                                                        className="text-bocadillo-walnut flex items-center justify-center"
+                                                                                    >
+                                                                                        <FiCheck className="text-xs stroke-[2.5]" />
+                                                                                    </motion.span>
+                                                                                )}
+                                                                            </button>
+                                                                        );
+                                                                    })}
+                                                                </motion.div>
+                                                            )}
+                                                        </AnimatePresence>
+                                                    </div>
+                                                ) : (
+                                                    /* Selector de cantidad interactivo editable estándar */
+                                                    <div className="flex items-center gap-1.5 bg-bocadillo-antique/50 border border-bocadillo-copper/20 rounded-full p-0.5 sm:p-1">
+                                                        <button
+                                                            type="button"
+                                                            onClick={decreaseQuantity}
+                                                            disabled={currentQty <= 1}
+                                                            aria-label="Disminuir cantidad"
+                                                            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-bocadillo-walnut flex items-center justify-center hover:bg-bocadillo-antique active:scale-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-xs shrink-0 cursor-pointer"
+                                                        >
+                                                            <FiMinus className="text-xs sm:text-sm" />
+                                                        </button>
+                                                        <input
+                                                            type="number"
+                                                            min="1"
+                                                            max="999"
+                                                            inputMode="numeric"
+                                                            pattern="[0-9]*"
+                                                            value={quantity}
+                                                            onChange={handleQuantityChange}
+                                                            onFocus={(e) => e.target.select()}
+                                                            onClick={(e) => e.target.select()}
+                                                            onBlur={handleQuantityBlur}
+                                                            aria-label="Cantidad a pedir"
+                                                            className="w-11 sm:w-12 text-center font-serif font-black text-base text-bocadillo-walnut bg-transparent focus:outline-none focus:bg-white/80 rounded transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                        />
+                                                        <button
+                                                            type="button"
+                                                            onClick={increaseQuantity}
+                                                            aria-label="Aumentar cantidad"
+                                                            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-bocadillo-walnut flex items-center justify-center hover:bg-bocadillo-antique active:scale-90 transition-all shadow-xs shrink-0 cursor-pointer"
+                                                        >
+                                                            <FiPlus className="text-xs sm:text-sm" />
+                                                        </button>
+                                                    </div>
+                                                )}
 
                                                 {/* Precio Total Dinámico */}
                                                 <div className="text-right">
@@ -607,18 +717,57 @@ export default function ProductDetailModal({ product, onClose }) {
                                                 </div>
                                             </div>
 
-                                            {/* Botón para avanzar a Datos de Entrega con microinteracción Apple */}
-                                            <button
-                                                type="button"
-                                                onClick={goToCheckout}
-                                                className="group w-full flex items-center justify-center gap-2 bg-bocadillo-walnut hover:bg-bocadillo-bark text-[#F6E9D9] py-2.5 sm:py-3.5 px-4 sm:px-6 rounded-full font-serif font-bold text-xs sm:text-sm tracking-wider uppercase shadow-md shadow-bocadillo-walnut/20 active:scale-[0.98] transition-all duration-75 cursor-pointer"
-                                            >
-                                                <span>CONTINUAR CON EL PEDIDO</span>
-                                                <FaChevronRight className="text-xs group-hover:translate-x-0.5 transition-transform" />
-                                            </button>
+                                            {/* Acciones: Agregar al pedido o pedir directamente */}
+                                            <div className="flex flex-col gap-2 pt-0.5">
+                                                <button
+                                                    type="button"
+                                                    onClick={handleAddToOrder}
+                                                    className={`group w-full flex items-center justify-center gap-2 py-3 sm:py-3.5 px-4 sm:px-6 rounded-full font-serif font-bold text-xs sm:text-sm tracking-wider uppercase shadow-md active:scale-[0.98] transition-all duration-200 cursor-pointer ${
+                                                        isAdded
+                                                            ? "bg-[#2D6A4F] text-white shadow-emerald-950/20 scale-[1.01]"
+                                                            : "bg-bocadillo-walnut hover:bg-bocadillo-bark text-[#F6E9D9] shadow-bocadillo-walnut/20"
+                                                    }`}
+                                                >
+                                                    <AnimatePresence mode="wait">
+                                                        {isAdded ? (
+                                                            <motion.span
+                                                                key="added"
+                                                                initial={{ scale: 0.85, opacity: 0 }}
+                                                                animate={{ scale: 1, opacity: 1 }}
+                                                                exit={{ scale: 0.85, opacity: 0 }}
+                                                                transition={{ type: "spring", stiffness: 500, damping: 25 }}
+                                                                className="flex items-center gap-2 text-[#E8F5E9]"
+                                                            >
+                                                                <FiCheck className="text-base stroke-[2.5]" />
+                                                                <span>¡Agregado a tu pedido!</span>
+                                                            </motion.span>
+                                                        ) : (
+                                                            <motion.span
+                                                                key="add"
+                                                                initial={{ scale: 0.95, opacity: 0 }}
+                                                                animate={{ scale: 1, opacity: 1 }}
+                                                                exit={{ scale: 0.95, opacity: 0 }}
+                                                                className="flex items-center gap-2"
+                                                            >
+                                                                <FiShoppingBag className="text-sm" />
+                                                                <span>AGREGAR A MI PEDIDO</span>
+                                                            </motion.span>
+                                                        )}
+                                                    </AnimatePresence>
+                                                </button>
+
+                                                <button
+                                                    type="button"
+                                                    onClick={goToCheckout}
+                                                    className="w-full text-center py-1.5 px-2 font-serif text-[11px] sm:text-xs text-bocadillo-copper hover:text-bocadillo-walnut font-medium transition-colors cursor-pointer flex items-center justify-center gap-1 group"
+                                                >
+                                                    <span>o pedir solo este producto por WhatsApp</span>
+                                                    <FaChevronRight className="text-[9px] group-hover:translate-x-0.5 transition-transform" />
+                                                </button>
+                                            </div>
 
                                             <p className="font-serif text-[10px] sm:text-xs text-center text-bocadillo-copper/80 font-medium leading-tight">
-                                                Paso 1 de 2: Personaliza tu cantidad antes de ingresar tus datos de entrega ♡
+                                                Combina diferentes bocaditos y combos en una sola orden ♡
                                             </p>
                                         </div>
                                     </motion.div>

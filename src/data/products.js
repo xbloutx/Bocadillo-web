@@ -1,6 +1,215 @@
 export const products = [
     {
         id: 1,
+        name: "Alfajorcitos Artesanales de Manjar blanco",
+        shortName: "Alfajorcitos de Manjar blanco",
+        price: 1.50, 
+        category: "dulces",
+        presentation: "Cajas de 12, 25, 50 o 100 unidades",
+        packOptions: [12, 25, 50, 100],
+        defaultPack: 12,
+        image: "/images/fondo/alfajores.webp",
+        images: ["/images/fondo/alfajores.webp"],
+        description: "Clásicos y suaves alfajorcitos que se deshace en la boca, rellenos con generoso manjar blanco de olla casero y espolvoreados con azúcar fina.",
+        items: [
+            "Masa 100% casera con mantequilla",
+            "Relleno generoso de manjar blanco de olla",
+            "Espolvoreados con azúcar impalpable fina",
+            "Ideales para eventos, cumpleaños y mesas dulces"
+        ]
+    },
+    
+    {
+        id: 2,
+        name: "Mini Donas de Chocolate con Toppings",
+        shortName: "Mini Donas",
+        price: 1.50, 
+        category: "dulces",
+        presentation: "Cajas de 12, 25, 50 o 100 unidades",
+        packOptions: [12, 25, 50, 100],
+        defaultPack: 12, 
+        image: "/images/fondo/chocodonas.webp",
+        images: ["/images/fondo/chocodonas.webp"],
+        description: "Tiernas mini donas horneadas cubiertas con chocolate semiamargo y decoradas con divertidos toppings crocantes: grajeas multicolores, lentejitas y chispas.",
+        items: [
+            "Cobertura de chocolate",
+            "Decoraciones variadas y coloridas",
+        ]
+    },
+
+    {
+        id: 3,
+        name: "Mini Donas Glaseadas Colores Pastel",
+        shortName: "Mini Donas Glaseadas",
+        price: 1.50, 
+        category: "dulces",
+        presentation: "Cajas de 12, 25, 50 o 100 unidades",
+        packOptions: [12, 25, 50, 100],
+        defaultPack: 12, 
+        image: "/images/fondo/chocodonas2.webp",
+        images: ["/images/fondo/chocodonas2.webp"],
+        description: "Mini donas suaves y esponjosas con delicado baño glaseado en tonos pastel. El detalle dulce perfecto para celebraciones temáticas y mesas elegantes.",
+        items: [
+            "Colores personalizables",
+            "Toque dulce equilibrado",
+            "Presentación impecable",
+        ]
+    },   
+
+    {
+        id: 4,
+        name: "Mini Cupcakes con Chantilly y Grajeas",
+        shortName: "Mini Cupcakes",
+        price: 1.50, 
+        category: "dulces",
+        presentation: "Cajas de 12, 25, 50 o 100 unidades",
+        packOptions: [12, 25, 50, 100],
+        defaultPack: 12, 
+        image: "/images/fondo/cupcakes.webp",
+        images: ["/images/fondo/cupcakes.webp"],
+        description: "Quequitos esponjosos de vainilla y chocolate coronados con suave crema chantilly casera, grajeas de fiesta y chips crujientes.",
+        items: [
+            "Queque húmedo y aromático",
+            "Crema ligera batida al momento",
+            "Porción individual práctica",
+        ]
+    },
+    
+    {
+        id: 5,
+        name: "Muffins Artesanales de Chispas de Chocolate",
+        shortName: "Muffins Artesanales",
+        price: 1.50, 
+        category: "dulces",
+        presentation: "Cajas de 12, 25, 50 o 100 unidades",
+        packOptions: [12, 25, 50, 100],
+        defaultPack: 12,
+        image: "/images/fondo/cupcakes2.webp",
+        images: ["/images/fondo/cupcakes2.webp"],
+        description: "Muffins horneados al estilo tradicional con masa dorada, suave aroma a vainilla y tropezones de chispas de chocolate derretidas.",
+        items: [
+            "Textura esponjosa de queque casero",
+            "Chispas de chocolate de alta calidad",
+            "Perfectos para lonches y reuniones",
+        ]
+    },
+
+    {
+        id: 6,
+        name: "Mini Pyes de Manzana Acaramelada",
+        shortName: "Mini Pyes",
+        price: 1.50, 
+        category: "dulces",
+        presentation: "Cajas de 12, 25, 50 o 100 unidades",
+        packOptions: [12, 25, 50, 100],
+        defaultPack: 12, 
+        image: "/images/fondo/minipay.webp",
+        images: ["/images/fondo/minipay.webp"],
+        description: "Crocante masa quebrada horneada a punto dorado, rellena de manzanas frescas salteadas a fuego lento con canela y caramelo, rematadas con su clásico enrejado.",
+        items: [
+            "Manzana fresca picada en casa",
+            "Toque cálido de canela",
+            "Masa quebrada que no se humedece.",
+        ]
+    },
+    
+    {
+        id: 7,
+        name: "Mini Tartaletas de Frutas y Crema Pastelera",
+        shortName: "Mini Pyes",
+        price: 1.50, 
+        category: "dulces",
+        presentation: "Cajas de 12, 25, 50 o 100 unidades",
+        packOptions: [12, 25, 50, 100],
+        defaultPack: 12, 
+        image: "/images/fondo/tartaletas2.webp",
+        images: ["/images/fondo/tartaletas2.webp"],
+        description: "Bases crujientes rellenas de sedosa crema pastelera de vainilla natural, coronadas con láminas de fresas frescas seleccionadas",
+        items: [
+            " Crema pastelera cocinada en casa",
+            "Fresas frescas",
+            "Toque fresco y vistoso",
+        ]
+    },
+
+    {
+        id: 8,
+        name: "Mini Causitas Limeñas Tradicionales",
+        shortName: "Mini Causitas",
+        price: 1.50, 
+        category: "salados",
+        presentation: "Cajas de 12, 25, 50 o 100 unidades",
+        packOptions: [12, 25, 50, 100],
+        defaultPack: 12, 
+        image: "/images/fondo/minicausas2.webp",
+        images: ["/images/fondo/minicausas2.webp"],
+        description: "Suaves bolitas de papa amarilla prensada con el toque exacto de ají amarillo.",
+        items: [
+            "Papa amarilla 100% natural sin grumos",
+            "Sazón criolla balanceada",
+            "El bocadito salado infaltable en celebraciones.",
+        ]
+    },
+
+    {
+        id: 9,
+        name: "Porciones de Pastel de Acelga Artesanal",
+        shortName: "Pastel de Acelga",
+        price: 1.50, 
+        category: "salados",
+        presentation: "Cajas de 12, 25, 50 o 100 unidades",
+        packOptions: [12, 25, 50, 100],
+        defaultPack: 12, 
+        image: "/images/fondo/pastel.webp",
+        images: ["/images/fondo/pastel.webp"],
+        description: "Fina masa hojaldrada crujiente rellena con abundante acelga tierna, queso y huevo, horneada hasta lograr un dorado perfecto.",
+        items: [
+            "Masa crocante multicapa",
+            "Relleno nutritivo y bien sazonado",
+            "Se sirve frío o tibio",
+        ]
+    },
+    
+    {
+        id: 10,
+        name: "Petipanes con Pollo a la Crema",
+        shortName: "Petipanes con Pollo",
+        price: 1.50, 
+        category: "salados",
+        presentation: "Cajas de 12, 25, 50 o 100 unidades",
+        packOptions: [12, 25, 50, 100],
+        defaultPack: 12, 
+        image: "/images/fondo/petitepanes.webp",
+        images: ["/images/fondo/petitepanes.webp"],
+        description: "Pancitos petipán frescos y suaves como nube, rellenos con generosa pechuga de pollo deshilachada y una mayonesa casera suave con toque de perejil.",
+        items: [
+            "Pan horneado del día",
+            "Pollo deshilachado a mano",
+            "Relleno abundante de punta a punta",
+        ]
+    },
+    
+    {
+        id: 11,
+        name: "Porciones de Pastel de Acelga Artesanal",
+        shortName: "Pastel de Acelga",
+        price: 1.50, 
+        category: "salados",
+        presentation: "Cajas de 12, 25, 50 o 100 unidades",
+        packOptions: [12, 25, 50, 100],
+        defaultPack: 12, 
+        image: "/images/fondo/triples.webp",
+        images: ["/images/fondo/triples.webp"],
+        description: "Bocaditos de pan de molde blanco extra suave sin corteza, con capas balanceadas de jamón inglés selecto, queso Edam, huevo cocido y palta fresca.",
+        items: [
+            "Pan húmedo y tierno",
+            "Ingredientes frescos cortados al día",
+            "El preferido para recepciones",
+        ]
+    },
+    
+    {
+        id: 12,
         name: "2 Mini pyes + Refresco de Maracuyá 300ml",
         shortName: "2 Mini pyes + Refresco de Maracuyá",
         presentation: "Cajas de carton",
@@ -19,8 +228,9 @@ export const products = [
         ],
         description: "Nuestra combinación favorita, preparada al momento con el toque de casa.",
     },
+    
     {
-        id: 2,
+        id: 13,
         name: "Pastel de acelga + Refresco de Maracuyá 300ml",
         shortName: "Pastel de acelga + Refresco de Maracuyá",
         presentation: "Cajas de carton",
@@ -39,8 +249,9 @@ export const products = [
         ],
         description: "Nuestra combinación favorita, preparada al momento con el toque de casa.",
     },
+
     {
-        id: 3,
+        id: 14,
         name: "6 Mini donas cubiertas en chocolate y toppings + Refresco de Maracuyá 300ml",
         shortName: "6 Mini Donas + Refresco de Maracuyá ",
         presentation: "Cajas de carton",
@@ -62,7 +273,7 @@ export const products = [
     },
 
     {
-        id: 4,
+        id: 15,
         name: "Sandwich de pollo + Alfajorcito de Manjar blanco + Refresco de Maracuyá 300ml",
         shortName: "Sandwich de pollo + 1 Alfajorcito + Mini pye + Refresco de Maracuyá",
         presentation: "Cajas de carton",
@@ -87,7 +298,7 @@ export const products = [
     },
     
     {
-        id: 5,
+        id: 16,
         name: "Sandwich de pollo + 2 Mini donas con chocolate + Refresco de Maracuyá 300ml",
         shortName: "Sandwich de pollo + 1 Mini pye + 2 Mini donas + Refresco",
         presentation: "Cajas de cartón",
@@ -111,7 +322,7 @@ export const products = [
     },
     
     {
-        id: 6,
+        id: 17,
         name: "4 Muffinss dulces surtidas + Refresco de Maracuyá 300ml",
         shortName: "4 Muffins dulces + Refresco",
         presentation: "Cajas de cartón",
@@ -133,7 +344,7 @@ export const products = [
     },
     
     {
-        id: 7,
+        id: 18,
         name: "2 Petipanes con pollo + Pocillo de fruta fresca + Refresco de Maracuyá 300ml",
         shortName: "2 Petipanes con pollo + Fruta + Refresco",
         presentation: "Cajas de cartón",
@@ -155,7 +366,7 @@ export const products = [
     },
 
     {
-        id: 8,
+        id: 19,
         name: "Bowl de Causa Limeña de Pollo + Refresco de Maracuyá 300ml",
         shortName: "Bowl de Causa Limeña + Refresco",
         presentation: "Bolsa de papel",
@@ -178,7 +389,7 @@ export const products = [
     },
 
     {
-        id: 9,
+        id: 20,
         name: "Sandwich de pollo al hilo + Cupcake de chocolate + Refresco de Maracuyá 300ml",
         shortName: "Sandwich al hilo + Cupcake + Refresco",
         presentation: "Bolsa de papel",
@@ -201,7 +412,7 @@ export const products = [
     },
 
     {
-        id: 10,
+        id: 21,
         name: "Tajada de Keke Marmoleado Casero + Refresco de Maracuyá 300ml",
         shortName: "Tajada de Keke Marmoleado + Refresco",
         presentation: "Bolsa de papel",
@@ -222,7 +433,7 @@ export const products = [
     },
 
     {
-        id: 11,
+        id: 22,
         name: "Sandwich Triple de Jamón y Queso + Muffin con Chispas + Refresco de Maracuyá 300ml",
         shortName: "Triple Jamón y Queso + Muffin + Refresco",
         presentation: "Bolsa de papel",
@@ -246,7 +457,7 @@ export const products = [
     },
 
     {
-        id: 12,
+        id: 23,
         name: "Sandwich de pollo al hilo + Paquete de Alfajorcitos + Refresco de Maracuyá 300ml",
         shortName: "Sandwich al hilo + Alfajorcitos + Refresco",
         presentation: "Bolsa de papel",
@@ -268,212 +479,4 @@ export const products = [
         description: "La combinación tradicional que nunca falla: el toque salado y crocante de nuestro sandwich de pollo con papitas al hilo, seguido por suaves alfajorcitos que se deshacen en la boca y maracuyá fresca."
     },
 
-    {
-        id: 13,
-        name: "Alfajorcitos Artesanales de Manjar blanco",
-        shortName: "Alfajorcitos de Manjar blanco",
-        price: 1.50, 
-        category: "dulces",
-        presentation: "Cajas de 12, 25, 50 o 100 unidades",
-        packOptions: [12, 25, 50, 100],
-        defaultPack: 12,
-        image: "/images/fondo/alfajores.webp",
-        images: ["/images/fondo/alfajores.webp"],
-        description: "Clásicos y suaves alfajorcitos que se deshace en la boca, rellenos con generoso manjar blanco de olla casero y espolvoreados con azúcar fina.",
-        items: [
-            "Masa 100% casera con mantequilla",
-            "Relleno generoso de manjar blanco de olla",
-            "Espolvoreados con azúcar impalpable fina",
-            "Ideales para eventos, cumpleaños y mesas dulces"
-        ]
-    },
-    
-    {
-        id: 14,
-        name: "Mini Donas de Chocolate con Toppings",
-        shortName: "Mini Donas",
-        price: 1.50, 
-        category: "dulces",
-        presentation: "Cajas de 12, 25, 50 o 100 unidades",
-        packOptions: [12, 25, 50, 100],
-        defaultPack: 12, 
-        image: "/images/fondo/chocodonas.webp",
-        images: ["/images/fondo/chocodonas.webp"],
-        description: "Tiernas mini donas horneadas cubiertas con chocolate semiamargo y decoradas con divertidos toppings crocantes: grajeas multicolores, lentejitas y chispas.",
-        items: [
-            "Cobertura de chocolate",
-            "Decoraciones variadas y coloridas",
-        ]
-    },
-
-    {
-        id: 15,
-        name: "Mini Donas Glaseadas Colores Pastel",
-        shortName: "Mini Donas Glaseadas",
-        price: 1.50, 
-        category: "dulces",
-        presentation: "Cajas de 12, 25, 50 o 100 unidades",
-        packOptions: [12, 25, 50, 100],
-        defaultPack: 12, 
-        image: "/images/fondo/chocodonas2.webp",
-        images: ["/images/fondo/chocodonas2.webp"],
-        description: "Mini donas suaves y esponjosas con delicado baño glaseado en tonos pastel. El detalle dulce perfecto para celebraciones temáticas y mesas elegantes.",
-        items: [
-            "Colores personalizables",
-            "Toque dulce equilibrado",
-            "Presentación impecable",
-        ]
-    },   
-
-    {
-        id: 16,
-        name: "Mini Cupcakes con Chantilly y Grajeas",
-        shortName: "Mini Cupcakes",
-        price: 1.50, 
-        category: "dulces",
-        presentation: "Cajas de 12, 25, 50 o 100 unidades",
-        packOptions: [12, 25, 50, 100],
-        defaultPack: 12, 
-        image: "/images/fondo/cupcakes.webp",
-        images: ["/images/fondo/cupcakes.webp"],
-        description: "Quequitos esponjosos de vainilla y chocolate coronados con suave crema chantilly casera, grajeas de fiesta y chips crujientes.",
-        items: [
-            "Queque húmedo y aromático",
-            "Crema ligera batida al momento",
-            "Porción individual práctica",
-        ]
-    },
-
-    {
-        id: 17,
-        name: "Muffins Artesanales de Chispas de Chocolate",
-        shortName: "Muffins Artesanales",
-        price: 1.50, 
-        category: "dulces",
-        presentation: "Cajas de 12, 25, 50 o 100 unidades",
-        packOptions: [12, 25, 50, 100],
-        defaultPack: 12,
-        image: "/images/fondo/cupcakes2.webp",
-        images: ["/images/fondo/cupcakes2.webp"],
-        description: "Muffins horneados al estilo tradicional con masa dorada, suave aroma a vainilla y tropezones de chispas de chocolate derretidas.",
-        items: [
-            "Textura esponjosa de queque casero",
-            "Chispas de chocolate de alta calidad",
-            "Perfectos para lonches y reuniones",
-        ]
-    },
-
-    {
-        id: 18,
-        name: "Mini Pyes de Manzana Acaramelada",
-        shortName: "Mini Pyes",
-        price: 1.50, 
-        category: "dulces",
-        presentation: "Cajas de 12, 25, 50 o 100 unidades",
-        packOptions: [12, 25, 50, 100],
-        defaultPack: 12, 
-        image: "/images/fondo/minipay.webp",
-        images: ["/images/fondo/minipay.webp"],
-        description: "Crocante masa quebrada horneada a punto dorado, rellena de manzanas frescas salteadas a fuego lento con canela y caramelo, rematadas con su clásico enrejado.",
-        items: [
-            "Manzana fresca picada en casa",
-            "Toque cálido de canela",
-            "Masa quebrada que no se humedece.",
-        ]
-    },
-
-    {
-        id: 19,
-        name: "Mini Tartaletas de Frutas y Crema Pastelera",
-        shortName: "Mini Pyes",
-        price: 1.50, 
-        category: "dulces",
-        presentation: "Cajas de 12, 25, 50 o 100 unidades",
-        packOptions: [12, 25, 50, 100],
-        defaultPack: 12, 
-        image: "/images/fondo/tartaletas2.webp",
-        images: ["/images/fondo/tartaletas2.webp"],
-        description: "Bases crujientes rellenas de sedosa crema pastelera de vainilla natural, coronadas con láminas de fresas frescas seleccionadas",
-        items: [
-            " Crema pastelera cocinada en casa",
-            "Fresas frescas",
-            "Toque fresco y vistoso",
-        ]
-    },
-
-    {
-        id: 20,
-        name: "Mini Causitas Limeñas Tradicionales",
-        shortName: "Mini Causitas",
-        price: 1.50, 
-        category: "salados",
-        presentation: "Cajas de 12, 25, 50 o 100 unidades",
-        packOptions: [12, 25, 50, 100],
-        defaultPack: 12, 
-        image: "/images/fondo/minicausas2.webp",
-        images: ["/images/fondo/minicausas2.webp"],
-        description: "Suaves bolitas de papa amarilla prensada con el toque exacto de ají amarillo.",
-        items: [
-            "Papa amarilla 100% natural sin grumos",
-            "Sazón criolla balanceada",
-            "El bocadito salado infaltable en celebraciones.",
-        ]
-    },
-
-    {
-        id: 21,
-        name: "Porciones de Pastel de Acelga Artesanal",
-        shortName: "Pastel de Acelga",
-        price: 1.50, 
-        category: "salados",
-        presentation: "Cajas de 12, 25, 50 o 100 unidades",
-        packOptions: [12, 25, 50, 100],
-        defaultPack: 12, 
-        image: "/images/fondo/pastel.webp",
-        images: ["/images/fondo/pastel.webp"],
-        description: "Fina masa hojaldrada crujiente rellena con abundante acelga tierna, queso y huevo, horneada hasta lograr un dorado perfecto.",
-        items: [
-            "Masa crocante multicapa",
-            "Relleno nutritivo y bien sazonado",
-            "Se sirve frío o tibio",
-        ]
-    },
-
-    {
-        id: 22,
-        name: "Petipanes con Pollo a la Crema",
-        shortName: "Petipanes con Pollo",
-        price: 1.50, 
-        category: "salados",
-        presentation: "Cajas de 12, 25, 50 o 100 unidades",
-        packOptions: [12, 25, 50, 100],
-        defaultPack: 12, 
-        image: "/images/fondo/petitepanes.webp",
-        images: ["/images/fondo/petitepanes.webp"],
-        description: "Pancitos petipán frescos y suaves como nube, rellenos con generosa pechuga de pollo deshilachada y una mayonesa casera suave con toque de perejil.",
-        items: [
-            "Pan horneado del día",
-            "Pollo deshilachado a mano",
-            "Relleno abundante de punta a punta",
-        ]
-    },
-
-    {
-        id: 23,
-        name: "Porciones de Pastel de Acelga Artesanal",
-        shortName: "Pastel de Acelga",
-        price: 1.50, 
-        category: "salados",
-        presentation: "Cajas de 12, 25, 50 o 100 unidades",
-        packOptions: [12, 25, 50, 100],
-        defaultPack: 12, 
-        image: "/images/fondo/triples.webp",
-        images: ["/images/fondo/triples.webp"],
-        description: "Bocaditos de pan de molde blanco extra suave sin corteza, con capas balanceadas de jamón inglés selecto, queso Edam, huevo cocido y palta fresca.",
-        items: [
-            "Pan húmedo y tierno",
-            "Ingredientes frescos cortados al día",
-            "El preferido para recepciones",
-        ]
-    },
 ];

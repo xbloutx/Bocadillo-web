@@ -4,25 +4,49 @@ import { FaInstagram, FaPlay } from "react-icons/fa6";
 const INSTAGRAM_POSTS =[
     {
         id: 1,
+        image: "/images/instagram/instagram7.webp",
+        link: "https://www.instagram.com/p/DdatLSsDp5d/?img_index=1",
+        text: "35 loncheritas entregadas para celebración del Día del Padre  ♡",
+    },
+    {
+        id: 2,
+        image: "/images/instagram/instagram8.webp",
+        link: "https://www.instagram.com/p/Ddaro6JODtU/",
+        text: "35 loncheritas entregadas para celebración del Día del Padre  ♡",
+    },
+    {
+        id: 3,
+        image: "/images/instagram/instagram9.webp",
+        link: "https://www.instagram.com/p/DdarMNWjiFd/?img_index=1",
+        text: "35 loncheritas entregadas para celebración del Día del Padre  ♡",
+    },
+        {
+        id: 4,
+        image: "/images/instagram/instagram10.webp",
+        link: "https://www.instagram.com/p/DdaleveOTtb/",
+        text: "35 loncheritas entregadas para celebración del Día del Padre  ♡",
+    },
+    {
+        id: 5,
         image: "/images/instagram/instagram6.webp",
         link: "https://www.instagram.com/p/DZyxvAWDlso/?img_index=1",
         text: "35 loncheritas entregadas para celebración del Día del Padre  ♡",
     },
     {
-        id: 2,
+        id: 6,
         image: "/images/instagram/instagram5.webp",
         link: "https://www.instagram.com/bocadillope/reel/DbyyUUsOTIX/",
         type: "reel",
         text: "Les comparto el proceso de uno de los pedidos que tuvimos por el día del maestro 👩🏻‍🏫",
     },
     {
-        id: 3,
+        id: 7,
         image: "/images/instagram/instagram4.webp",
         link: "https://www.instagram.com/p/DaMjeb9DgEP/?img_index=1",
         text: "Nuestros Pasteles de Acelga ♡",
     },
     {
-        id: 4,
+        id: 8,
         image: "/images/instagram/instagram3.webp",
         link: "https://www.instagram.com/p/DZzATNDus8u/",
         text: "Pequeñas, delicadas y llenas de sabor",

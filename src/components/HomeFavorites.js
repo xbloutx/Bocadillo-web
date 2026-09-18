@@ -9,7 +9,7 @@ import { products } from "@/data/products";
 import ProductDetailModal from "@/components/ProductDetailModal";
 
 // LISTA DE FAVORITOS
-const FAVORITE_PRODUCT_IDS = [1, 2, 3, 4, 8, 9, 10, 11, 13, 19, 21, 22];
+const FAVORITE_PRODUCT_IDS = [1, 7, 9, 10, 12, 13, 14, 15, 19, 20, 21, 22];
 
 export default function HomeFavorites() {
     const [selectedProduct, setSelectedProduct] = useState(null);
